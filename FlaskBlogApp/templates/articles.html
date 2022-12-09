@@ -48,10 +48,10 @@
 
             {% if articles.page == page_number %}
 
-                <a class="btn btn-primary" href="{{ url_for('root', page=page_number) }}">{{ page_number }}</a>
+                <a class="btn btn-primary" href="{{ url_for('articles', page=page_number) }}">{{ page_number }}</a>
 
             {% else %}
-                <a class="btn btn-outline-primary" href="{{ url_for('root', page=page_number) }}">{{ page_number }}</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('articles', page=page_number) }}">{{ page_number }}</a>
             {% endif %}
 
         {% else %}

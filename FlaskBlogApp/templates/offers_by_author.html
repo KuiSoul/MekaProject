@@ -32,10 +32,10 @@
             </p>
             <p class="">Από
               <span>
-                <a class="author-name" href="{{ url_for('offers_by_author', author_id=offer.offer.id) }}"> {{ offer.author.username }}
+                <a class="author-name" href="{{ url_for('offers_by_author', author_id=offer.id) }}"> {{ offer.author.username }}
                   <img class="rounded-circle profile-image"
                        alt="{{ offer.author.username }}"
-                       src="{{ url_for('static', filename='images/profiles_images/'+article.author.profile_image) }}"
+                       src="{{ url_for('static', filename='images/profiles_images/'+offer.author.profile_image) }}"
                        data-holder-rendered="true"
                        data-bs-toggle="tooltip"
                        data-bs-placement="top" title="{{ offer.author.username }}">

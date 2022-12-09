@@ -270,8 +270,8 @@ def edit_offer(offer_id):
 
     offer = Offer.query.filter_by(id=offer_id, author=current_user).first_or_404()
 
-    form = NewOfferForm(offer_title=offer.article_title, offer_body=offer.offer_body)
-
+    form = NewOfferForm(offer_title=offer.offer_title, offer_body=offer.offer_body)
+    
     if request.method == 'POST' and form.validate_on_submit():
         offer.offer_title = form.offer_title.data
         offer.offer_body = form.offer_body.data

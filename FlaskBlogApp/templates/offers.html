@@ -42,10 +42,10 @@
 
             {% if offers.page == page_number %}
 
-                <a class="btn btn-primary" href="{{ url_for('root', page=page_number) }}">{{ page_number }}</a>
+                <a class="btn btn-primary" href="{{ url_for('offers', page=page_number) }}">{{ page_number }}</a>
 
             {% else %}
-                <a class="btn btn-outline-primary" href="{{ url_for('root', page=page_number) }}">{{ page_number }}</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('offers', page=page_number) }}">{{ page_number }}</a>
             {% endif %}
 
         {% else %}
