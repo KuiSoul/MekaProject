@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+FlaskBlogApp/mekareverse_database.db
