@@ -1,104 +1,160 @@
 body {
-	background-color: #f8f9fa;
+	background-color: #8e8888;
+
 }
 
-.container{
+.container {
 	margin-top: 20px;
 }
 
-.main-article-title{
+.main-article-title {
 	font-size: 2em;
 	font-weight: bold;
 	text-decoration: none;
-	color:  black;
+	color: black;
 }
 
-.article_date,.article_date:hover{
+.article_date,
+.article_date:hover {
 	font-size: 1em;
-	color:  black;
+	color: black;
 }
 
-.main-article-partial-text,.main-article-full-text{
+.main-article-partial-text,
+.main-article-full-text {
 	font-size: 1.5em;
 	margin-top: 20px;
 }
 
-.main-article-category{
+.main-article-category {
 	color: rgba(0, 0, 0, 0.4);
 }
 
-.author-name:link{
+.author-name:link {
 	color: gray;
 }
 
-.author-name:visited{
+.author-name:visited {
 	color: #696969;
 }
 
-.author-name:hover{
+.author-name:hover {
 	color: #D3D3D3;
 }
 
-.article_title:link, .article_title:hover, .article_title:visited{
+.article_title:link,
+.article_title:hover,
+.article_title:visited {
 	text-decoration: none;
-	color:  black;
+	color: black;
 }
 
-.main-article-category:hover,.main-article-title:hover,.author-name{
+.main-article-category:hover,
+.main-article-title:hover,
+.author-name {
 	text-decoration: underline;
-	color:  black;
+	color: black;
 }
 
-footer{
+footer {
 	color: #fff;
 	background-color: #343a40;
 }
 
-.litems,.mlink{
+.litems,
+.mlink {
 	text-decoration: none;
 	/*color: #f8f9fa;*/
-	color: rgba(255,255,255,.90)!important;
-	
-}
-.litems:hover{
-	/*color: white;*/
-	color: rgba(255,255,255,10)!important;
+	color: rgba(255, 255, 255, .90) !important;
+
 }
 
-.row{
+.litems:hover {
+	/*color: white;*/
+	color: rgba(255, 255, 255, 10) !important;
+}
+
+.row {
 	margin-top: 20px;
 }
 
-.navbar-profile-image{
+.navbar-profile-image {
 	width: 50px;
 	height: 50px;
 }
 
-.profile-image{
+.profile-image {
 	width: 60px;
 	height: 60px;
 	margin: 10px;
 }
 
-.a_image{
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.a_image {
+	border: 1px solid #ddd;
+	border-radius: 8px;
 }
 
-.aba_header{
+.aba_header {
 	text-align: center;
 }
 
-.error_message{
-    font-size: 3em;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-    color:  red;
+.error_message {
+	font-size: 3em;
+	font-weight: bold;
+	text-decoration: none;
+	text-align: center;
+	color: red;
 }
 
-.error_image{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.error_image {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (min-width: 992px) {
+	.bg-dark {
+		background-color: black !important;
+	}
+
+	.navbar-brand {
+		color: gray !important;
+	}
+}
+
+.bg-dark {
+	background-color: white !important;
+}
+
+.navbar-brand {
+	color: black !important;
+}
+
+.nav-link {
+	color: black !important;
+}
+
+.page-footer {
+	position: relative;
+	bottom: 0;
+	width: 100%;
+}
+
+.login-container {
+	padding: 100px !important;
+	background-color: white !important;
+}
+
+.form-control {
+	background-color: #b89f9f !important;
+}
+
+.btn {
+	background-color: red !important;
+}
+
+.mb {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

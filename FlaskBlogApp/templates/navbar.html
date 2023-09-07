@@ -1,33 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
+    <a class="nav-link" aria-current="page" href="/" style="width:10%; height:50px"><img
+        src="{{ url_for('static', filename='images/logo-favicon/logotypo.png') }}" width="100%" height="50px"
+        class="img-responsive"></a>
+    <a class="navbar-brand" href="/articles/">ΜΕΚΑ</a>
 
-    <a class="navbar-brand" href="/articles/">Άρθρα</a>
-    <button class="navbar-toggler" type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- <a class="navbar-brand" href="/offers/">BLOG</a>
 
-        <a class="navbar-brand" href="/offers/">Αγγελίες</a>
-    <button class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand" href="/new_article/">ΒΑΣΗ ΑΛΛΗΛΕΓΓΥΗΣ</a>
+
+    <a class="navbar-brand" href="/new_offer/">ΕΠΙΚΟΙΝΩΝΙΑ</a> -->
+
+
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="background-color: gray"></span>
+    </button> -->
+
+    <a class="navbar-brand" href="/offers/">Αγγελίες</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="background-color: gray"></span>
     </button>
 
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/">Αρχική Σελίδα</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="/new_article/">Νέο Άρθρο</a>
         </li>
@@ -39,44 +37,46 @@
 
         {% if current_user.is_authenticated %}
 
-          <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
 
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="rounded-circle navbar-profile-image"
-                   src="{{ url_for('static', filename='images/profiles_images/'+current_user.profile_image) }}"
-                   alt="{{ current_user.username }}"
-                   data-holder-rendered="true"
-                   data-bs-toggle="tooltip"
-                   data-bs-placement="top",
-                   title="{{ current_user.username }}" >
-            </a>
-            
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            
-              <li>
-                <a class="dropdown-item" href="/account/">{{ current_user.username }}</a>
-              </li>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <img class="rounded-circle navbar-profile-image"
+              src="{{ url_for('static', filename='images/profiles_images/'+current_user.profile_image) }}"
+              alt="{{ current_user.username }}" data-holder-rendered="true" data-bs-toggle="tooltip"
+              data-bs-placement="top" , title="{{ current_user.username }}">
+          </a>
 
-              <li>
-                <a class="dropdown-item" href="/logout/">Έξοδος</a>
-              </li>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-            </ul>
+            <li>
+              <a class="dropdown-item" href="/account/">{{ current_user.username }}</a>
+            </li>
 
-          </li>
+            <li>
+              <a class="dropdown-item" href="/logout/">Έξοδος</a>
+            </li>
+
+          </ul>
+
+        </li>
 
         {% else %}
 
-          <li class="nav-item">
-            <a class="nav-link" href="/signup/">Εγγραφή</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login/">Είσοδος</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/signup/">Εγγραφή</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login/">Είσοδος</a>
+        </li>
 
         {% endif %}
 
       </ul>
+    </div>
+    <div>
+      <input type="search"
+        style="border-radius: 12px;background-color: #8e8888;padding:0 5px; margin: 0 15px; width: 70%;">
     </div>
   </div>
 </nav>
