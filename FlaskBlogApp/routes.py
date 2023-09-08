@@ -51,7 +51,7 @@ def root():
 @login_required
 def articles():
     page = request.args.get("page", 1, type=int)
-    the_articles = Article.query.order_by(Article.date_created.desc()).paginate(per_page=5, page=page)
+    the_articles = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("articles.html", articles=the_articles)
 
 
@@ -59,7 +59,7 @@ def articles():
 @login_required
 def offers():
     page = request.args.get("page", 1, type=int)
-    the_offers = Offer.query.order_by(Offer.date_created.desc()).paginate(per_page=5, page=page)
+    the_offers = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("offers.html", offers=the_offers)
 
 
