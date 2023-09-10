@@ -9,52 +9,68 @@
 {% block content %}
 
 
-<div class="container login-container">
-  <div class="row">
-    <div class="col-md-6 login-form-1">
-      <h3>{{ page_title }}</h3>
+<div>
+  <div>
+    <div>
+      <h3>ΕΠΙΚΟΙΝΩΝΙΑ</h3>
       <br>
       <br>
-
 
       <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
 
-        <div class="mb-3">
-          {{ form.offer_title.label(class="form-label") }}
-          {{ form.offer_title(class="form-control", required=False) }}
-          <div id="offer_titleHelp" class="form-text">Παρακαλώ καθορίστε το θέμα της αγγελίας.</div>
-          {% if form.offer_title.errors %}
-          <ul class=errors>
-            {% for error in form.offer_title.errors %}
-            <li class="alert text-danger">{{ error }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %}
+        <div>
+          <div>Η ομάδα μας είναι περιορισμένη και τα μέλη μας αφιερώνουν ελεύθερο χρόνο τους στο εγχείρημα του
+            MEKAREVERSE.
+            Παρακαλούμε διάλεξε από τις παρακάτω κατηγορίεςγια να λάβεις απάντηση απευθείας απο το μέλος που έχει πιο
+            σχετικό ρόλο με το ερώτημα σου!</div>
+          <br>
+          <br>
+
+          <form action="/action_page.php">
+            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+            <label for="vehicle1"> Πρόβλημα Εγγραφής / Σύνδεσης στην ομάδα </label><br>
+            <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+            <label for="vehicle2"> Πρόβλημα προσθήκης Άρθρου / Αγγελίας </label><br>
+            <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+            <label for="vehicle3"> Άλλο </label>
+          </form>
+
         </div>
 
-
-        <div class="mb-3">
-          {{ form.offer_body.label(class="form-label") }}
-          {{ form.offer_body(class="form-control", rows="5", required=False) }}
-          <div id="offer_bodyHelp" class="form-text">Παρακαλώ περιγράψτε τί ζητάτε ή τί προσφέρετε με ακρίβεια και
-            σαφήνεια.</div>
-          {% if form.offer_body.errors %}
-          <ul class=errors>
-            {% for error in form.offer_body.errors %}
-            <li class="alert text-danger">{{ error }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %}
+        <div class="row">
+          <div class="col-md-6 login-form-1">
+            <P>Περιγραφή ζητήματος (εώς 200 λέξεις)</P>
+            {{ form.offer_body(class="form-control", rows="5", required=False) }}
+            <div id="offer_bodyHelp" class="form-text">Παρακαλώ περιγράψτε τί ζητάτε ή τί προσφέρετε με ακρίβεια και
+              σαφήνεια.</div>
+            {% if form.offer_body.errors %}
+            <ul class=errors>
+              {% for error in form.offer_body.errors %}
+              <li class="alert text-danger">{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
         </div>
-
-        <div class="mb-3">
-          {{ form.submit(class="btn btn-primary") }}
+        <br>
+        <br>
+        <form>
+          <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+          <label for="vehicle3">Συμφωνώ με τους <a href="#" style="color: black;">Όρους χρήσης</a></label>
+        </form>
+        <br>
+        <br>
+        <div class="mb-3" style="border-radius: 30px;">
+          <a class="btn btn-primary" href="/signup/">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</a>
+          <br>
+          <br>
+          <br>
         </div>
       </form>
-
     </div>
   </div>
+</div>
 </div>
 
 {% endblock content %}

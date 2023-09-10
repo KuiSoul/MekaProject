@@ -8,6 +8,41 @@ Offers
 
 {% block content %}
 
+<div class="container-fluid" style="height: 20%;">
+  <div class="row">
+    <div class="col-sm" style="color: red;">ΦΙΛΤΡΑ</div>
+    <div class="col-sm">ΕΙΔΟΣ ΑΓΓΕΛΙΑΣ
+      <form action="/action_page.php">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Προτείνω</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Το χρειάζομαι</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">The Collectives είναι εξαιρετικές.</label>
+      </form>
+    </div>
+    <div class="col-sm">ΤΟΠΟΘΕΣΙΑ
+      <form action="/action_page.php">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Νόμος(Επίπεδο 1)</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Περιοχή(Επίπεδο 2)</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Απόσταση(χιλιόμετρα)</label>
+      </form>
+    </div>
+    <div class="col-sm">ΧΡΟΝΟΣ
+      <form action="/action_page.php">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1"> 24 ώρες </label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2"> 7 ημέρες </label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3"> 1 μήνας </label>
+      </form>
+    </div>
+  </div>
+</div>
 {% if offers %}
 {% for offer in offers.items %}
 <div class="col col-md-4" style="padding: 90px;">

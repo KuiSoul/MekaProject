@@ -82,18 +82,24 @@ def offers_by_author(author_id):
 @app.route("/signup/", methods=["GET", "POST"])
 def signup():
 
+    print('hello')
     form = SignupForm()
 
     if request.method == 'POST' and form.validate_on_submit():
+        print('hi')
         username = form.username.data
+        surname = form.surname.data
+        name = form.name.data
         email = form.email.data
+        recommender = form.recommender.data
         password = form.password.data
         password2 = form.password2.data
-        my_contact = form.my_contact.data
+        
 
         encrypted_password = bcrypt.generate_password_hash(password).decode('UTF-8')
 
-        user = User(username=username, email=email, password=encrypted_password, contact_username=my_contact)
+        user = User(username=username, name=name, surname=surname, email=email, password=encrypted_password, recommender=recommender)
+        print(user)
         db.session.add(user)
         db.session.commit()
 

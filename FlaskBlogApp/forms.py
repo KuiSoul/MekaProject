@@ -32,11 +32,12 @@ class SignupForm(FlaskForm):
                             validators=[DataRequired( message="Αυτό το πεδίο δε μπορεί να είναι κενό." ),
                                         Length(min=3, max=15,
                                                message="Αυτό το πεδίο πρέπει να είναι από 3 έως 15 χαρακτήρες" )] )
-    my_contact = StringField( label="My_Contact",
-                              validators=[DataRequired( message="Αυτό το πεδίο δε μπορεί να είναι κενό." ),
-                                          Length(min=3, max=15,
-                                                 message="Αυτό το πεδίο πρέπει να είναι από 3 έως 15 χαρακτήρες"),
-                                          validate_contact] )
+    surname = StringField( label="Surname")
+    name = StringField( label="Name",
+                            validators=[DataRequired( message="sur name required." ),
+                                        Length(min=3, max=15,
+                                               message="length error" )] )
+    recommender = StringField( label="recommender" )
     email = StringField( label="email",
                          validators=[DataRequired( message="Αυτό το πεδίο δε μπορεί να είναι κενό." ),
                                      Email(message="Παρακαλώ εισάγετε ένα σωστό email"),
