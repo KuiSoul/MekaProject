@@ -1,0 +1,76 @@
+{% extends "outline.html" %}
+
+
+{% block title %}
+Contact
+{% endblock title %}
+
+
+{% block content %}
+
+
+<div>
+  <div>
+    <div>
+      <h3>ΕΠΙΚΟΙΝΩΝΙΑ</h3>
+      <br>
+      <br>
+
+      <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <div>
+          <div>Η ομάδα μας είναι περιορισμένη και τα μέλη μας αφιερώνουν ελεύθερο χρόνο τους στο εγχείρημα του
+            MEKAREVERSE.
+            Παρακαλούμε διάλεξε από τις παρακάτω κατηγορίεςγια να λάβεις απάντηση απευθείας απο το μέλος που έχει πιο
+            σχετικό ρόλο με το ερώτημα σου!</div>
+          <br>
+          <br>
+
+          <form action="/action_page.php">
+            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+            <label for="vehicle1"> Πρόβλημα Εγγραφής / Σύνδεσης στην ομάδα </label><br>
+            <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+            <label for="vehicle2"> Πρόβλημα προσθήκης Άρθρου / Αγγελίας </label><br>
+            <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+            <label for="vehicle3"> Άλλο </label>
+          </form>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 login-form-1">
+            <P>Περιγραφή ζητήματος (εώς 200 λέξεις)</P>
+            {{ form.offer_body(class="form-control", rows="5", required=False) }}
+
+            {% if form.offer_body.errors %}
+            <ul class=errors>
+              {% for error in form.offer_body.errors %}
+              <li class="alert text-danger">{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+        <br>
+        <br>
+        <form>
+          <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+          <label for="vehicle3">Συμφωνώ με τους <a href="#" style="color: black;">Όρους χρήσης</a></label>
+        </form>
+        <br>
+        <div>Then a captcha</div>
+        <br>
+        <div class="mb-3" style="border-radius: 30px;">
+          <a class="btn btn-primary" href="/signup/">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</a>
+          <br>
+          <br>
+          <br>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock content %}

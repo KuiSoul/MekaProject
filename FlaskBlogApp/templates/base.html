@@ -1,52 +1,100 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title>
-        {% block title %}
-        {% endblock title%}
-    </title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo-favicon/favicon.png') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-
-<body>
+{% extends "outline.html" %}
 
 
-    {% include "navbar.html" %}
+{% block title %}
+Base
+{% endblock title %}
 
-    <main role="main" class="container">
 
-        <div class="row">
-            <div class="col-md-12">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message | safe }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
-            </div>
-        </div>
+{% block content %}
 
-        {% block content %}
+<div class="container-fluid" style="height: 20%;">
+  <div class="row">
+    <div class="col-sm" style="color: red;">ΦΙΛΤΡΑ</div>
+    <div class="col-sm">ΕΙΔΟΣ ΑΓΓΕΛΙΑΣ
+      <form action="/action_page.php">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Προτείνω</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Το χρειάζομαι</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">The Collectives είναι εξαιρετικές.</label>
+      </form>
+    </div>
+    <div class="col-sm">ΤΟΠΟΘΕΣΙΑ
+      <form action="/action_page.php">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1">Νόμος(Επίπεδο 1)</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2">Περιοχή(Επίπεδο 2)</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3">Απόσταση(χιλιόμετρα)</label>
+      </form>
+    </div>
+    <div class="col-sm">ΧΡΟΝΟΣ
+      <form action="/action_page.php">
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1"> 24 ώρες </label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2"> 7 ημέρες </label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3"> 1 μήνας </label>
+      </form>
+    </div>
+  </div>
+</div>
+{% if offers %}
+{% for offer in offers.items %}
+<div class="col col-md-4" style="padding: 90px;">
 
-        {% endblock content %}
 
-    </main>
+  <div class="main-offer-title">
+    <a class="offer_title" href="{{ url_for('full_offer', offer_id=offer.id) }}">{{ offer.offer_title | safe }}</a>
+  </div>
+  <small class="article_date">[{{ offer.date_created.strftime('%d-%m-%Y') }}]</small>
+  <p class="main-article-partial-text">
+    {{ offer.offer_body | truncate(255) | safe }}
+  </p>
+  <p class="">Από
+    <span>
+      <a class="author-name" href="{{ url_for('offers_by_author', author_id=offer.author.id) }}"> {{
+        offer.author.username }}
+        <img class="rounded-circle profile-image" alt="{{ offer.author.username }}"
+          src="{{ url_for('static', filename='images/profiles_images/'+ offer.author.profile_image) }}"
+          data-holder-rendered="true" data-bs-toggle="tooltip" data-bs-placement="top"
+          title="{{ offer.author.username }}">
+      </a>
+    </span>
+  </p>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
-        </script>
 
-    {% include "footer.html" %}
-</body>
 
-</html>
+
+
+{% endfor %}
+
+<div class="pagination">
+  {% for page_number in offers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+
+  {% if page_number %}
+
+  {% if offers.page == page_number %}
+
+  <a href="{{ url_for('offers', page=page_number) }}" class="active">{{ page_number }}</a>
+
+  {% else %}
+  <a href="{{ url_for('offers', page=page_number) }}">{{ page_number }}</a>
+  {% endif %}
+
+  {% else %}
+  <span>...</span>
+  {% endif %}
+
+
+  {% endfor %}
+
+</div>
+{% endif %}
+
+{% endblock content %}

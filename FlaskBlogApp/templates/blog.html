@@ -1,0 +1,70 @@
+{% extends "outline.html" %}
+
+
+{% block title %}
+Blog
+{% endblock title %}
+
+
+{% block content %}
+
+{% if blog %}
+{% for article in blog.items %}
+
+<div class="col-md-4" style="padding: 40px;">
+
+  {% if article.article_image and article.article_image != 'default_article_image.jpg' %}
+  <img src="{{ url_for('static', filename='images/articles_images/'+article.article_image) }}" alt=""
+    class="img-responsive a_image" width="100%" height="300px">
+  {% endif %}
+  <div class="main-article-title">
+    <a class="article_title" href="{{ url_for('article_title', article_id=article.id) }}">{{ article.article_title
+      |truncate(10)|
+      safe }}</a>
+  </div>
+  <small class="article_date">[{{ article.date_created.strftime('%d-%m-%Y') }}]</small>
+  <p class="main-article-partial-text">
+    {{ article.article_body | truncate(100) | safe }}
+  </p>
+  <p class="">Από
+    <span>
+      <a class="author-name" href="{{ url_for('articles_by_author', author_id=article.author.id) }}"> {{
+        article.author.username }}
+        <img class="rounded-circle profile-image" alt="{{ article.author.username }}"
+          src="{{ url_for('static', filename='images/profiles_images/'+article.author.profile_image) }}"
+          data-holder-rendered="true" data-bs-toggle="tooltip" data-bs-placement="top"
+          title="{{ article.author.username }}">
+      </a>
+    </span>
+  </p>
+</div>
+
+
+{% endfor %}
+<div class="pagination">
+
+  {% for page_number in blog.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+
+  {% if page_number %}
+
+  {% if blog.page == page_number %}
+
+  <a href="{{ url_for('blog', page=page_number) }}" class="active">{{ page_number }}</a>
+
+  {% else %}
+  <a href="{{ url_for('blog', page=page_number) }}">{{ page_number }}</a>
+  {% endif %}
+
+  {% else %}
+  <span>...</span>
+  {% endif %}
+
+
+
+
+  {% endfor %}
+</div>
+
+{% endif %}
+
+{% endblock content %}

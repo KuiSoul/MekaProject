@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "outline.html" %}
 
 
 {% block title %}
-    Εγγραφή
+Εγγραφή
 {% endblock title %}
 
 
@@ -10,88 +10,121 @@
 
 
 <div class="container login-container">
+    <h3>Σελίδα Εγγραφής</h3>
+    <p>Για να εγγραφείς στο MEKAREVERSE θα πρέπει να συμφωνείς με τον Κανονισμό Λειτουργίας της ομάδας καθώς και να σε
+        συστήσει ένα ήδη εγγεγραμμένο μέλος μας! Φροντίσαμε να συμπεριλάβουμε αυτό το βήμα για λόγους ασφαλείας.
+        * Ζήτα απο το υπάρχον μέλος μας το email (ή το username) με το οποίο έχει εγγραφεί στον MEKAREVERSE και
+        συμπλήρωσε το στην παρακάτω φορμα μαζί με τα απαραίτητα στοιχεία εγγραφής.
+    </p>
     <div class="row">
         <div class="col-md-6 login-form-1">
-            
-            <h3>Σελίδα Εγγραφής</h3>
 
-            <form action="#" method="POST">
+
+
+            <form action="/signup/" method="POST">
 
                 {{ form.hidden_tag() }}
 
                 <div class="mb-3">
-                    {{ form.username.label(class="form-label") }}
-                    {{ form.username(class="form-control", required=False) }}
-                    <div id="usernameHelp" class="form-text">Παρακαλώ δώστε username</div>
+                    <p>Όνομα</p>
+                    {{ form.name(class="form-control", required=False) }}
 
-                    {% if form.username.errors %}
-                        <ul class="errors">
-                            {% for error in form.username.errors %}
-                                <li class="alert text-danger">
-                                    {{ error }}
-                                </li>
-                            {% endfor %}
-                        </ul>
+                    {% if form.name.errors %}
+                    <ul class="errors">
+                        {% for error in form.name.errors %}
+                        <li class="alert text-danger">
+                            {{ error }}
+                        </li>
+                        {% endfor %}
+                    </ul>
                     {% endif %}
                 </div>
-
-                 <div class="mb-3">
-                    {{ form.my_contact.label(class="form-label") }}
-                    {{ form.my_contact(class="form-control", required=False) }}
-                    <div id="my_contactHelp" class="form-text">Παρακαλώ δώστε το ψευδώνυμο της επαφής σας στη MekaReverse:"</div>
-
-                    {% if form.my_contact.errors %}
-                        <ul class="errors">
-                            {% for error in form.my_contact.errors %}
-                                <li class="alert text-danger">
-                                    {{ error }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-
-              <div class="mb-3">
-                {{ form.email.label(class="form-label") }}
-                {{ form.email(class="form-control", required=False) }}
-                <div id="emailHelp" class="form-text">Παρακαλώ δώστε email.</div>
-                    {% if form.email.errors %}
-                    <ul class=errors>
-                    {% for error in form.email.errors %}
-                      <li class="alert text-danger">{{ error }}</li>
-                    {% endfor %}
-                    </ul>
-                  {% endif %}
-              </div>
-
-              <div class="mb-3">
-                {{ form.password.label(class="form-label") }}
-                {{ form.password(class="form-control", type="password", required=False) }}
-                <div id="passwordHelp" class="form-text">Παρακαλώ δώστε password.</div>
-                    {% if form.password.errors %}
-                    <ul class=errors>
-                    {% for error in form.password.errors %}
-                      <li class="alert text-danger">{{ error }}</li>
-                    {% endfor %}
-                    </ul>
-                  {% endif %}
-              </div>
-
-              <div class="mb-3">
-                {{ form.password2.label(class="form-label") }}
-                {{ form.password2(class="form-control", type="password", required=False) }}
-                <div id="password2Help" class="form-text">Παρακαλώ επιβεβαιώστε το password.</div>
-                    {% if form.password2.errors %}
-                    <ul class=errors>
-                    {% for error in form.password2.errors %}
-                      <li class="alert text-danger">{{ error }}</li>
-                    {% endfor %}
-                    </ul>
-                  {% endif %}
-              </div>
 
                 <div class="mb-3">
-                    {{ form.submit(class="btn btn-primary") }}
+                    <p>Επώνυμο</p>
+                    <!-- {{ form.username.label(class="form-label") }} -->
+                    {{ form.surname(class="form-control", required=False) }}
+                    <!-- <div id="usernameHelp" class="form-text">Παρακαλώ δώστε το ψευδώνυμο της επαφής σας στη MekaReverse:"</div> -->
+
+                    {% if form.surname.errors %}
+                    <ul class="errors">
+                        {% for error in form.surname.errors %}
+                        <li class="alert text-danger">
+                            {{ error }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <p>Username</p>
+                    {{ form.username(class="form-control", required=False) }}
+
+                    {% if form.username.errors %}
+                    <ul class="errors">
+                        {% for error in form.username.errors %}
+                        <li class="alert text-danger">
+                            {{ error }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+
+
+                <div class="mb-3">
+                    <p>Διεύθυνση email σου </p>
+                    {{ form.email(class="form-control", required=False) }}
+                    {% if form.email.errors %}
+                    <ul class=errors>
+                        {% for error in form.email.errors %}
+                        <li class="alert text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <p>Email/Username μέλους σύστασης</p>
+                    {{ form.recommender(class="form-control", required=False) }}
+                    {% if form.recommender.errors %}
+                    <ul class=errors>
+                        {% for error in form.recommender.errors %}
+                        <li class="alert text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <p>Password (συμπεριλαμβάνει συνδιασμό πεζών – κεφαλαίων – αριθμών και ειδικών χαρακτήρων –
+                        τουλάχιστον 3 από τα 4 )</p>
+                    {{ form.password(class="form-control", type="password", required=False) }}
+                    {% if form.password.errors %}
+                    <ul class=errors>
+                        {% for error in form.password.errors %}
+                        <li class="alert text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <p>Επιβεβαίωση Password</p>
+                    {{ form.password2(class="form-control", type="password", required=False) }}
+                    {% if form.password2.errors %}
+                    <ul class=errors>
+                        {% for error in form.password2.errors %}
+                        <li class="alert text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <input class="btn btn-primary" type="submit" id="submit" name="submit" value="ΟΛΟΚΛΗΡΩΣΗ ΕΓΓΡΑΦΗΣ">
                 </div>
 
 
