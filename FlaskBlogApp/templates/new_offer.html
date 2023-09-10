@@ -42,8 +42,7 @@
           <div class="col-md-6 login-form-1">
             <P>Περιγραφή ζητήματος (εώς 200 λέξεις)</P>
             {{ form.offer_body(class="form-control", rows="5", required=False) }}
-            <div id="offer_bodyHelp" class="form-text">Παρακαλώ περιγράψτε τί ζητάτε ή τί προσφέρετε με ακρίβεια και
-              σαφήνεια.</div>
+
             {% if form.offer_body.errors %}
             <ul class=errors>
               {% for error in form.offer_body.errors %}
@@ -60,6 +59,7 @@
           <label for="vehicle3">Συμφωνώ με τους <a href="#" style="color: black;">Όρους χρήσης</a></label>
         </form>
         <br>
+        <div>Then a captcha</div>
         <br>
         <div class="mb-3" style="border-radius: 30px;">
           <a class="btn btn-primary" href="/signup/">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</a>
