@@ -98,7 +98,7 @@ def signup():
 
         encrypted_password = bcrypt.generate_password_hash(password).decode('UTF-8')
 
-        user = User(username=username, name=name, surname=surname, email=email, password=encrypted_password, recommender=recommender)
+        user = User(username=username, name=name, surname=surname, email=email, password=encrypted_password, recommender=recommender, contact_username="")
         print(user)
         db.session.add(user)
         db.session.commit()
