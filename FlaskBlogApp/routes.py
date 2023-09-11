@@ -47,20 +47,20 @@ def root():
     return render_template("index.html")
 
 
-@app.route("/articles/")
+@app.route("/blog/")
 @login_required
-def articles():
+def blog():
     page = request.args.get("page", 1, type=int)
-    the_articles = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
-    return render_template("articles.html", articles=the_articles)
+    the_blog = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
+    return render_template("blog.html", blog=the_blog)
 
 
-@app.route("/offers/")
+@app.route("/base/")
 @login_required
 def offers():
     page = request.args.get("page", 1, type=int)
-    the_offers = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
-    return render_template("offers.html", offers=the_offers)
+    the_base = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
+    return render_template("base.html", offers=the_base)
 
 
 @app.route("/articles_by_author/<int:author_id>")
@@ -168,7 +168,7 @@ def new_article():
     return render_template("new_article.html", form=form, page_title="Εισαγωγή Νέου Άρθρου")
 
 
-@app.route("/new_offer/", methods=["GET", "POST"])
+@app.route("/contact/", methods=["GET", "POST"])
 @login_required
 def new_offer():
     form = NewOfferForm()
@@ -184,13 +184,13 @@ def new_offer():
         db.session.commit()
         flash(f"H αγγελία με θέμα {offer.offer_title} καταχωρήθηκε.", "success")
         return redirect(url_for("root"))
-    return render_template("new_offer.html", form=form, page_title="Καταχώριση Νέας Αγγελίας")
+    return render_template("contact.html", form=form, page_title="Καταχώριση Νέας Αγγελίας")
 
 
-@app.route("/full_article/<int:article_id>", methods=["GET"])
-def full_article(article_id):
+@app.route("/article_title/<int:article_id>", methods=["GET"])
+def article_title(article_id):
     article = Article.query.get_or_404(article_id)
-    return render_template("full_article.html", article=article)
+    return render_template("article_title.html", article=article)
 
 
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
