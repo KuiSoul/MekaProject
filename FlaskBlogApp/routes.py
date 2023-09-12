@@ -192,6 +192,13 @@ def article_title(article_id):
     article = Article.query.get_or_404(article_id)
     return render_template("article_title.html", article=article)
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        article = request.form.get('search')
+        return render_template('search_results.html', article=article)
+    else:
+        return render_template('404.html')
 
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
 def full_offer(offer_id):

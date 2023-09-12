@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+  style="position: fixed;width: 100%;top: 0;margin-bottom: 50px;">
   <div class="container-fluid" style="display: flex;justify-content: space-around;align-items: center;">
     <a class="nav-link" aria-current="page" href="/" style="width:10%; height:50px"><img
         src="{{ url_for('static', filename='images/logo-favicon/logotypo.png') }}" width="100%" height="40px"
@@ -63,9 +64,10 @@
       </ul>
 
     </div>
-    <div class=" input-group" style="width: auto;">
+    <form class=" input-group" style="width: auto;" method="POST" action="/search">
       <input type="search" class="form-control" placeholder="Search" name="search">
-      <i class="bi bi-search input-group-text"></i>
-    </div>
+      <button type="submit" style="border: none;"><i class="bi bi-search input-group-text"
+          style="border: none;"></i></button>
+    </form>
   </div>
 </nav>

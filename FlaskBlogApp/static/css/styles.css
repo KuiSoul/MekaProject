@@ -136,12 +136,9 @@ footer {
 }
 
 .page-footer {
-	/* position: relative;
-	bottom: 0; */
-	width: 100%;
-	position: fixed;
-	left: 0;
+	position: relative;
 	bottom: 0;
+	width: 100%;
 }
 
 .login-container {
