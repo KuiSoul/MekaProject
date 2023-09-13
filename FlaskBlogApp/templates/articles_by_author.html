@@ -28,8 +28,8 @@ Index
 <div class="row my-3 p-3 bg-body rounded shadow-sm">
   <div class="col col-md-12">
     {% if article.article_image and article.article_image != 'default_article_image.jpg' %}
-    <img src="{{ url_for('static', filename='images/articles_images/'+article.article_image) }}" alt=""
-      class="img-responsive a_image" width="640px" height="360px">
+    <center><img src="{{ url_for('static', filename='images/articles_images/'+article.article_image) }}" alt=""
+        class="img-responsive a_image" width="640px" height="360px"></center>
     {% endif %}
   </div>
   <div class="col col-md-12">
@@ -41,7 +41,7 @@ Index
     <p class="main-article-partial-text">
       {{ article.article_body | truncate(255) | safe }}
     </p>
-    <p class="">Από
+    <!-- <p class="">Από
       <span>
         <a class="author-name" href="{{ url_for('articles_by_author', author_id=article.author.id) }}"> {{
           article.author.username }}
@@ -51,7 +51,7 @@ Index
             title="{{ article.author.username }}">
         </a>
       </span>
-    </p>
+    </p> -->
   </div>
 </div>
 
@@ -61,28 +61,28 @@ Index
 {% endfor %}
 {% endif %}
 
+<div class="pagination">
+  {% for page_number in articles.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 
-{% for page_number in articles.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+  {% if page_number %}
 
-{% if page_number %}
+  {% if articles.page == page_number %}
 
-{% if articles.page == page_number %}
+  <a href="{{ url_for('articles_by_author', author_id=author.id, page=page_number) }}" class="active">{{
+    page_number }}</a>
 
-<a class="btn btn-primary" href="{{ url_for('articles_by_author', author_id=author.id, page=page_number) }}">{{
-  page_number }}</a>
+  {% else %}
+  <a href="{{ url_for('articles_by_author', author_id=author.id, page=page_number) }}">{{
+    page_number }}</a>
+  {% endif %}
 
-{% else %}
-<a class="btn btn-outline-primary" href="{{ url_for('articles_by_author', author_id=author.id, page=page_number) }}">{{
-  page_number }}</a>
-{% endif %}
-
-{% else %}
-<span>...</span>
-{% endif %}
+  {% else %}
+  <span>...</span>
+  {% endif %}
 
 
-{% endfor %}
-
+  {% endfor %}
+</div>
 
 
 {% endblock content %}

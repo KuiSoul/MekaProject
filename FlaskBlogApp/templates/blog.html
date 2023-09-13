@@ -19,8 +19,7 @@ Blog
   {% endif %}
   <div class="main-article-title">
     <a class="article_title" href="{{ url_for('article_title', article_id=article.id) }}">{{ article.article_title
-      |truncate(10)|
-      safe }}</a>
+      }}</a>
   </div>
   <small class="article_date">[{{ article.date_created.strftime('%d-%m-%Y') }}]</small>
   <p class="main-article-partial-text">

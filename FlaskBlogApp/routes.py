@@ -12,8 +12,10 @@ from flask_login import login_user, current_user, logout_user, login_required
 from FlaskBlogApp.forms import SignupForm, LoginForm, NewArticleForm, AccountUpdateForm, NewOfferForm
 from FlaskBlogApp import app, db, bcrypt
 from FlaskBlogApp.models import User, Article, Offer
+from sqlalchemy import literal
 
 from PIL import Image
+import sqlite3
 
 
 
@@ -54,6 +56,13 @@ def blog():
     the_blog = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("blog.html", blog=the_blog)
 
+
+@app.route("/client/")
+@login_required
+def client():
+    page = request.args.get("page", 1, type=int)
+    the_client = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
+    return render_template("client.html", client=the_client)
 
 @app.route("/base/")
 @login_required
@@ -167,10 +176,28 @@ def new_article():
 
     return render_template("new_article.html", form=form, page_title="Εισαγωγή Νέου Άρθρου")
 
+@app.route("/new_offer/", methods=["GET", "POST"])
+@login_required
+def new_offer():
+    form = NewOfferForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        offer_title = form.offer_title.data
+        offer_body = form.offer_body.data
+        offer = Offer(offer_title=offer_title,
+                      offer_body=offer_body,
+                      author=current_user,
+                      )
+        db.session.add(offer)
+        db.session.commit()
+        flash(f"H αγγελία με θέμα {offer.offer_title} καταχωρήθηκε.", "success")
+        return redirect(url_for("root"))
+    return render_template("new_offer.html", form=form, page_title="Καταχώριση Νέας Αγγελίας")
+
 
 @app.route("/contact/", methods=["GET", "POST"])
 @login_required
-def new_offer():
+def new_contact():
     form = NewOfferForm()
 
     if request.method == 'POST' and form.validate_on_submit():
@@ -192,13 +219,46 @@ def article_title(article_id):
     article = Article.query.get_or_404(article_id)
     return render_template("article_title.html", article=article)
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search/', methods=["POST"])
 def search():
-    if request.method == 'POST':
-        article = request.form.get('search')
-        return render_template('search_results.html', article=article)
-    else:
-        return render_template('404.html')
+    page = request.args.get("page", 1, type=int)
+    keyword = request.form.get('search')
+    data = Article.query.filter(Article.article_body.contains(keyword) | Article.article_title.contains(keyword)).paginate(per_page=6, page=page)
+    if data:
+        return render_template("blog.html",title='Searching..' + keyword, blog=data)
+    flash("Το άρθρο δε βρέθηκε.", "warning")
+    return render_template("index.html")
+
+@app.route('/checkbox_event1/', methods=['POST'])
+def checkbox_event1():
+    page = request.args.get("page", 1, type=int)
+    checkbox_state = request.form.get('filters1')
+    data = Offer.query.filter(Offer.offer_body.contains(checkbox_state) | Offer.offer_title.contains(checkbox_state)).paginate(per_page=6, page=page)    
+    if data:
+        return render_template("base.html", offers=data)
+    flash("Το άρθρο δε βρέθηκε.", "warning")
+    return render_template("index.html")
+
+@app.route('/checkbox_event2/', methods=['POST'])
+def checkbox_event2():
+    page = request.args.get("page", 1, type=int)
+    checkbox_state = request.form.get('filters4')
+    data = Offer.query.filter(Offer.offer_body.contains(checkbox_state) | Offer.offer_title.contains(checkbox_state)).paginate(per_page=6, page=page)    
+    if data:
+        return render_template("base.html", offers=data)
+    flash("Το άρθρο δε βρέθηκε.", "warning")
+    return render_template("index.html")
+
+@app.route('/checkbox_event3/', methods=['POST'])
+def checkbox_event3():
+    page = request.args.get("page", 1, type=int)
+    checkbox_state = request.form.get('filters7')
+    data = Offer.query.filter(Offer.offer_body.contains(checkbox_state) | Offer.offer_title.contains(checkbox_state)).paginate(per_page=6, page=page)    
+    if data:
+        return render_template("base.html", offers=data)
+    flash("Το άρθρο δε βρέθηκε.", "warning")
+    return render_template("index.html")
+        
 
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
 def full_offer(offer_id):
@@ -233,10 +293,27 @@ def delete_offer(offer_id):
     flash("Η αγγελία δεν βρέθηκε.", "warning")
     return redirect(url_for("root"))
 
+@app.route('/my_articles/', methods=["GET", "POST"] )
+def my_articles():
+    articles = Article.query.filter_by(author=current_user).all()
+    if articles:
+        return render_template('articles_by_author.html', articles=articles)
+    flash("Η αγγελία δεν βρέθηκε.", "warning")
+    return render_template("index.html")
+
+@app.route('/my_offers/', methods=["GET", "POST"] )
+def my_offers():
+    offers = Article.query.filter_by(author=current_user).all()
+    if offers:
+        return render_template('offers_by_author.html', offers=offers)
+    flash("Η αγγελία δεν βρέθηκε.", "warning")
+    return render_template("index.html")
 
 @app.route("/account/", methods=['GET', 'POST'])
 @login_required
 def account():
+    page = request.args.get("page", 1, type=int)
+    article_data = Article.query.order_by(Article.user_id.desc()).paginate(per_page=6, page=page)
     form = AccountUpdateForm(username=current_user.username, email=current_user.email)
 
     if request.method == 'POST' and form.validate_on_submit():
@@ -252,7 +329,7 @@ def account():
         db.session.commit()
         flash(f"Ο λογαριασμός του χρήστη <b>{current_user.username}</b> ενημερώθηκε με επιτυχία", "success")
         return redirect(url_for('root'))
-    return render_template("account_update.html", form=form)
+    return render_template("account_update.html", form=form, articles=article_data)
 
 
 @app.route("/edit_article/<int:article_id>", methods=['GET', 'POST'])

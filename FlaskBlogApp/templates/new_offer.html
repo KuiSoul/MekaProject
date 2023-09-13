@@ -1,0 +1,57 @@
+{% extends "outline.html" %}
+
+
+{% block title %}
+Νέα Αγγελία
+{% endblock title %}
+
+
+{% block content %}
+
+
+<div class="container login-container">
+  <div class="row">
+    <div class="col-md-6 login-form-1">
+      <h3>{{ page_title }}</h3>
+
+      <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+          {{ form.offer_title.label(class="form-label") }}
+          {{ form.offer_title(class="form-control", required=False) }}
+          <div id="offer_titleHelp" class="form-text">Παρακαλώ καθορίστε το θέμα της αγγελίας.</div>
+          {% if form.offer_title.errors %}
+          <ul class=errors>
+            {% for error in form.offer_title.errors %}
+            <li class="alert text-danger">{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+
+        <div class="mb-3">
+          {{ form.offer_body.label(class="form-label") }}
+          {{ form.offer_body(class="form-control", rows="5", required=False) }}
+          <div id="offer_bodyHelp" class="form-text">Παρακαλώ περιγράψτε τί ζητάτε ή τί προσφέρετε με ακρίβεια και
+            σαφήνεια.</div>
+          {% if form.offer_body.errors %}
+          <ul class=errors>
+            {% for error in form.offer_body.errors %}
+            <li class="alert text-danger">{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.submit(class="btn btn-primary") }}
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

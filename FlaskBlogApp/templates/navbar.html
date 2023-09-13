@@ -41,6 +41,10 @@
               <a class="dropdown-item" href="/account/">{{ current_user.username }}</a>
             </li>
 
+            <!-- <li>
+              <a class="dropdown-item" href="/client/">{{ current_user.username }}</a>
+            </li> -->
+
             <li>
               <a class="dropdown-item" href="/logout/">Έξοδος</a>
             </li>
@@ -64,7 +68,7 @@
       </ul>
 
     </div>
-    <form class=" input-group" style="width: auto;" method="POST" action="/search">
+    <form class=" input-group" style="width: auto;" method="POST" action="/search/">
       <input type="search" class="form-control" placeholder="Search" name="search">
       <button type="submit" style="border: none;"><i class="bi bi-search input-group-text"
           style="border: none;"></i></button>

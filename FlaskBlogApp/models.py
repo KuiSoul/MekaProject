@@ -32,6 +32,7 @@ class Article(db.Model):
     article_image = db.Column(db.String(30), nullable=False, default='default_article_image.jpg')
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    __searchable__ = ['article_title', 'article_body']
 
     def __repr__(self):
         return f"{self.date_created}: {self.article_title}"

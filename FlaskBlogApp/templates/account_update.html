@@ -9,8 +9,23 @@
 {% block content %}
 
 
+
 <div class="container login-container">
     <div class="row">
+        <div class="col-md-6 login-form-1">
+            <div>
+                <h3><a href="/my_articles/">Άρθρα από τον εγώ</a>
+                </h3>
+                <h3><a href="/new_article/">Υποβολή νέου άρθρου</a></h3>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div>
+                <h3><a href="/my_offers/">Αγγελίες από τον εγώ</a></h3>
+                <h3><a href="/new_offer/">Υποβολή νέας αγγελίας</a></h3>
+            </div>
+        </div>
         <div class="col-md-6 login-form-1">
 
             <h3>Φόρμα Ενημέρωσης Λογαριασμού</h3>
@@ -59,7 +74,8 @@
                 <div class="mb-3">
                     {{ form.profile_image.label(class="form-label") }}
                     {{ form.profile_image(class="form-control") }}
-                    <div id="profile_imageHelp" class="form-text">Παρακαλώ δώστε μία εικόνα για το προφίλ σας.</div>
+                    <div id="profile_imageHelp" class="form-text">Παρακαλώ δώστε μία εικόνα για το
+                        προφίλ σας.</div>
                     {% if form.profile_image.errors %}
                     <ul class=errors>
                         {% for error in form.profile_image.errors %}
