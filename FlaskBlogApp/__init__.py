@@ -5,7 +5,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from sqlalchemy import MetaData
-from flask_msearch import Search
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = 'b668cbc68d29fd2b7f5976c54c39f6ec'
