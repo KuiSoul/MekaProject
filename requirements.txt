@@ -20,3 +20,5 @@ SQLAlchemy==1.4.28
 Werkzeug==2.0.1
 WTForms==2.3.3
 Flask-Migrate==4.0.4
+flask_recaptcha==0.4.2
+flask_mail==0.9.1
