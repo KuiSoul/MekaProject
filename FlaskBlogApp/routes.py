@@ -37,7 +37,7 @@ mail.init_app(app)
 
 app.config['SECRET_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
 # app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'
-app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
+# app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
 
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1'
 
