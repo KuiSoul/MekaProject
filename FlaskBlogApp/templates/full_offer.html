@@ -14,43 +14,58 @@
 
   {% if offer %}
 
-  <div class="row my-3 p-3 bg-body rounded shadow-sm">
-    <div class="col col-md-12">
-      <div class="main-offer-title">
+  <div>
+    <div>
+      {% if offer.offer_image and offer.offer_image != 'default_offer_image.jpg' %}
+      <img src="{{ url_for('static', filename='images/offers_images/'+offer.offer_image) }}" alt="" class="a_image"
+        style="width:320px; height:180px; float: right;">
+      {% endif %}
+      <div class="main-article-title">
         {{ offer.offer_title | safe }}
       </div>
-      <small class="offer_date">[{{ offer.date_created.strftime('%d-%m-%Y') }}]</small>
-
-      <div>
-        {% if offer.author == current_user %}
-        <a class="btn btn-primary btn-sm mt-1 mb-1"
-          href="{{ url_for('edit_offer', offer_id=offer.id) }}">Τροποποίηση</a>
-        <button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal"
-          data-bs-target="#deleteModal">Διαγραφή</button>
-        {% endif %}
-      </div>
-
-      <p class="main-article-partial-text">
-        {{ offer.offer_body | safe }}
-      </p>
-      <p class="">Από
-        <span>
-          <a class="author-name" href="{{ url_for('offers_by_author', author_id=offer.author.id) }}">
-            {{ offer.author.username }}
+      <p>
+        <span class="author-info">
+          <a class="author-user" href="{{ url_for('offers_by_author', author_id=offer.author.id) }}"
+            style="text-decoration: none;">
             <img class="rounded-circle profile-image" alt="{{ offer.author.username }}"
               src="{{ url_for('static', filename='images/profiles_images/'+offer.author.profile_image) }}"
               data-holder-rendered="true" data-bs-toggle="tooltip" data-bs-placement="top"
               title="{{ offer.author.username }}">
+            <span class="author-details">
+              <span class="author-username">{{offer.author.username }}</span>
+              <small class="offer_date">[{{ offer.date_created.strftime('%d-%m-%Y') }}]</small>
+            </span>
           </a>
         </span>
       </p>
     </div>
-  </div>
+    <div>
+      <div>
+        <div>
+          {% if offer.author == current_user %}
+          <a class="btn btn-primary btn-sm mt-1 mb-1"
+            href="{{ url_for('edit_offer', offer_id=offer.id) }}">Τροποποίηση</a>
+          <button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal"
+            data-bs-target="#deleteModal">Διαγραφή</button>
+          {% endif %}
+        </div>
 
+        <p class="main-article-partial-text" style="margin-top: 10%;">
+          {{ offer.offer_body}}
+        </p>
+      </div>
+      <a href="{{ url_for('full_offer', offer_id=offer.id-1) }}" style="color: red; font-size: 2em;">Επόμενο
+        άρθρο</a>
+      <br>
+      <br>
+      <a href="{{ url_for('offers_by_author', author_id=offer.author.id) }}" style="color: red;font-size: 2em;">Διαβάστε
+        περισσότερα από [όνομα μέλους]</a>
+    </div>
+  </div>
   {% endif %}
 
-
 </main>
+
 
 
 

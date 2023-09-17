@@ -46,6 +46,19 @@
         </div>
 
         <div class="mb-3">
+          {{ form.offer_image.label(class="form-label") }}
+          {{ form.offer_image(class="form-control") }}
+          <div id="offer_imageHelp" class="form-text">Παρακαλώ δώστε μία εικόνα για το άρθρο σας.</div>
+          {% if form.offer_image.errors %}
+          <ul class=errors>
+            {% for error in form.offer_image.errors %}
+            <li class="alert text-danger">{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
           {{ form.submit(class="btn btn-primary") }}
         </div>
       </form>

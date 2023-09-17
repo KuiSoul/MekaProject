@@ -6,13 +6,66 @@ from flask import (render_template,
                    url_for,
                    request,
                    flash,
-                   abort)
+                   abort,
+                   jsonify)
 
 from flask_login import login_user, current_user, logout_user, login_required
-from FlaskBlogApp.forms import SignupForm, LoginForm, NewArticleForm, AccountUpdateForm, NewOfferForm
+from FlaskBlogApp.forms import SignupForm, LoginForm, NewArticleForm, AccountUpdateForm, NewOfferForm, ContactForm
 from FlaskBlogApp import app, db, bcrypt
 from FlaskBlogApp.models import User, Article, Offer
 from sqlalchemy import literal
+
+
+
+
+from flask_recaptcha import ReCaptcha
+from flask_wtf import FlaskForm
+from flask_wtf.recaptcha import RecaptchaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms.validators import DataRequired, Email, EqualTo, Optional
+from flask_mail import Mail, Message
+
+app.secret_key = 'my_secrest_key'
+
+mail = Mail()
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USERNAME"] = 'contact@example.com'
+app.config["MAIL_PASSWORD"] = 'your-password'
+mail.init_app(app)
+
+app.config['SECRET_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
+app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'
+app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
+
+class SignupForm(FlaskForm):
+    name = StringField('Όνομα', validators=[DataRequired()])
+    surname = StringField('Επώνυμο', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Διεύθυνση email σου', validators=[DataRequired(), Email()])
+    recommender = StringField('Διεύθυνση email σου', validators=[DataRequired(), Email()])
+    password = PasswordField('Password (συμπεριλαμβάνει συνδιασμό πεζών – κεφαλαίων – αριθμών και ειδικών χαρακτήρων – τουλάχιστον 3 από τα 4 )', validators=[DataRequired()])
+    password2 = PasswordField('Επιβεβαίωση Password', validators=[DataRequired(), EqualTo('password')])
+    recaptcha = RecaptchaField()
+    submit = SubmitField('ΟΛΟΚΛΗΡΩΣΗ ΕΓΓΡΑΦΗΣ')
+
+class LoginForm(FlaskForm):
+    email = StringField('Διεύθυνση email σου', validators=[DataRequired(), Email()])
+    # username = StringField('Username', validators=[Optional()])
+    # email = StringField('Email', validators=[Optional(), Email()])
+    # email_or_username = StringField('Email or Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    recaptcha = RecaptchaField()
+    submit = SubmitField()    
+
+class ContactForm(FlaskForm):
+    option = StringField('Option')
+    description = TextAreaField('Description', validators=[DataRequired()])
+    recaptcha = RecaptchaField() 
+
+
 
 from PIL import Image
 import sqlite3
@@ -56,19 +109,11 @@ def blog():
     the_blog = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("blog.html", blog=the_blog)
 
-
-@app.route("/client/")
-@login_required
-def client():
-    page = request.args.get("page", 1, type=int)
-    the_client = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
-    return render_template("client.html", client=the_client)
-
 @app.route("/base/")
 @login_required
 def offers():
     page = request.args.get("page", 1, type=int)
-    the_base = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
+    the_base = Offer.query.order_by(Offer.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("base.html", offers=the_base)
 
 
@@ -89,13 +134,11 @@ def offers_by_author(author_id):
 
 
 @app.route("/signup/", methods=["GET", "POST"])
-def signup():
-
-    print('hello')
+def signup():    
     form = SignupForm()
 
-    if request.method == 'POST' and form.validate_on_submit():
-        print('hi')
+    if request.method == 'POST' and form.validate_on_submit():       
+        
         username = form.username.data
         surname = form.surname.data
         name = form.name.data
@@ -113,21 +156,28 @@ def signup():
         db.session.commit()
 
         flash(f"Ο λογαριασμός για τον χρήστη <b>{username}</b> δημιουργήθηκε με επιτυχία", "success")
-        return redirect(url_for('login'))
+        return redirect(url_for('login'))    
+    if not form.recaptcha.data:
+        flash('Please complete the reCAPTCHA.')
+        return render_template('signup.html', form=form)
     return render_template("signup.html", form=form)
 
 
 @app.route("/login/", methods=["GET", "POST"])
 def login():
+    form = LoginForm()
     if current_user.is_authenticated:
         return redirect(url_for("root"))
-
-    form = LoginForm()
-
     if request.method == 'POST' and form.validate_on_submit():
+                  
+        # email_or_username = request.form.get('email') or request.form.get('username')
+        # email_or_username = form.email_or_username.data
         email = form.email.data
         password = form.password.data
         user = User.query.filter_by(email=email).first()
+        # user = User.query.filter((User.email == email_or_username) | (User.username == email_or_username)).first()
+        # if user and bcrypt.check_password_hash(user.password, password):
+        #     flash(f"User with email or username: {email_or_username} logged in successfully.", "success")
         if user and bcrypt.check_password_hash(user.password, password):
             flash(f"Η είσοδος του χρήστη με email: {email} στη σελίδα μας έγινε με επιτυχία.", "success")
             login_user(user, remember=form.remember_me.data)
@@ -135,6 +185,9 @@ def login():
             return redirect(next_link) if next_link else redirect(url_for("root"))
         else:
             flash("Η είσοδος του χρήστη ήταν ανεπιτυχής, παρακαλούμε δοκιμάστε ξανά με τα σωστά email/password.", "warning")
+        if not form.recaptcha.data:
+            flash('Please complete the reCAPTCHA.')
+            return render_template('signup.html', form=form)     
     return render_template("login.html", form=form)
 
 
@@ -184,10 +237,18 @@ def new_offer():
     if request.method == 'POST' and form.validate_on_submit():
         offer_title = form.offer_title.data
         offer_body = form.offer_body.data
-        offer = Offer(offer_title=offer_title,
-                      offer_body=offer_body,
-                      author=current_user,
-                      )
+
+        if form.article_image.data:
+            try:
+                image_file = image_save(form.article_image.data, 'articles_images', (640, 360))
+            except:
+                abort(415)
+            offer = Offer(offer_title=offer_title,
+                        offer_body=offer_body,
+                        author=current_user,
+                        offer_image=image_file)
+        else:
+            offer = Offer(offer_title=offer_title, offer_body=offer_body, author=current_user)
         db.session.add(offer)
         db.session.commit()
         flash(f"H αγγελία με θέμα {offer.offer_title} καταχωρήθηκε.", "success")
@@ -197,22 +258,25 @@ def new_offer():
 
 @app.route("/contact/", methods=["GET", "POST"])
 @login_required
-def new_contact():
-    form = NewOfferForm()
-
+def contact():
+    form = ContactForm()
+    
     if request.method == 'POST' and form.validate_on_submit():
-        offer_title = form.offer_title.data
-        offer_body = form.offer_body.data
-        offer = Offer(offer_title=offer_title,
-                      offer_body=offer_body,
-                      author=current_user,
-                      )
-        db.session.add(offer)
-        db.session.commit()
-        flash(f"H αγγελία με θέμα {offer.offer_title} καταχωρήθηκε.", "success")
-        return redirect(url_for("root"))
+
+            option = request.form.get('option')
+            description = form.description.data
+            send_email(option, description)
+            
+    if not form.recaptcha.data:
+        flash('Please complete the reCAPTCHA.')
+        return render_template('contact.html', form=form)    
+    
     return render_template("contact.html", form=form, page_title="Καταχώριση Νέας Αγγελίας")
 
+def send_email(option, description):
+    msg = Message('New Contact Form Submission', sender='yourapp@example.com', recipients=['admin@example.com'])
+    msg.body = f"Option: {option}\n\nDescription: {description}"
+    mail.send(msg)
 
 @app.route("/article_title/<int:article_id>", methods=["GET"])
 def article_title(article_id):
@@ -228,37 +292,18 @@ def search():
         return render_template("blog.html",title='Searching..' + keyword, blog=data)
     flash("Το άρθρο δε βρέθηκε.", "warning")
     return render_template("index.html")
-
-@app.route('/checkbox_event1/', methods=['POST'])
-def checkbox_event1():
+@app.route('/filtering/')
+def filtering():
     page = request.args.get("page", 1, type=int)
-    checkbox_state = request.form.get('filters1')
-    data = Offer.query.filter(Offer.offer_body.contains(checkbox_state) | Offer.offer_title.contains(checkbox_state)).paginate(per_page=6, page=page)    
-    if data:
-        return render_template("base.html", offers=data)
-    flash("Το άρθρο δε βρέθηκε.", "warning")
-    return render_template("index.html")
+    filters = request.args.get('filters')
+    data = Offer.query.filter(Offer.offer_body.contains(filters) | Offer.offer_title.contains(filters)).paginate(per_page=6, page=page)
+    return render_template("filtering.html", offers=data)
+    # if data: 
+    #     return render_template("base.html", offers=data)
+    # flash("Η αγγελία δεν βρέθηκε.", "warning")
+    # return render_template("index.html")    
+    # return jsonify(html=filtered_offers_html)
 
-@app.route('/checkbox_event2/', methods=['POST'])
-def checkbox_event2():
-    page = request.args.get("page", 1, type=int)
-    checkbox_state = request.form.get('filters4')
-    data = Offer.query.filter(Offer.offer_body.contains(checkbox_state) | Offer.offer_title.contains(checkbox_state)).paginate(per_page=6, page=page)    
-    if data:
-        return render_template("base.html", offers=data)
-    flash("Το άρθρο δε βρέθηκε.", "warning")
-    return render_template("index.html")
-
-@app.route('/checkbox_event3/', methods=['POST'])
-def checkbox_event3():
-    page = request.args.get("page", 1, type=int)
-    checkbox_state = request.form.get('filters7')
-    data = Offer.query.filter(Offer.offer_body.contains(checkbox_state) | Offer.offer_title.contains(checkbox_state)).paginate(per_page=6, page=page)    
-    if data:
-        return render_template("base.html", offers=data)
-    flash("Το άρθρο δε βρέθηκε.", "warning")
-    return render_template("index.html")
-        
 
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
 def full_offer(offer_id):
@@ -366,6 +411,13 @@ def edit_offer(offer_id):
     if request.method == 'POST' and form.validate_on_submit():
         offer.offer_title = form.offer_title.data
         offer.offer_body = form.offer_body.data
+
+        if form.offer_image.data:
+            try:
+                image_file = image_save(form.offer_image.data, 'offers_images', (640, 360))
+            except:
+                abort(415)
+            offer.offer_image = image_file
 
         db.session.commit()
         flash(f"Η αγγελία με τίτλο <b>{offer.offer_title}</b> ενημερώθηκε με επιτυχία.", "success")

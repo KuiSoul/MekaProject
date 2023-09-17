@@ -42,6 +42,7 @@ class Offer(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     offer_title = db.Column(db.String(50), nullable=False)
     offer_body = db.Column(db.Text(), nullable=False)
+    offer_image = db.Column(db.String(30), nullable=False, default='default_offer_image.jpg')
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 

@@ -1,0 +1,61 @@
+{% extends "outline.html" %}
+
+
+{% block title %}
+Filtering
+{% endblock title %}
+
+{% block content %}
+
+{% if offers %}
+{% for offer in offers.items %}
+<div class="col col-md-4" style="padding: 90px;">
+    <div class="main-offer-title">
+        <a class="offer_title" href="{{ url_for('full_offer', offer_id=offer.id) }}">{{ offer.offer_title | safe }}</a>
+    </div>
+    <small class="article_date">[{{ offer.date_created.strftime('%d-%m-%Y') }}]</small>
+    <p class="main-article-partial-text">
+        {{ offer.offer_body | truncate(255) | safe }}
+    </p>
+    <p class="">Από
+        <span>
+            <a class="author-name" href="{{ url_for('offers_by_author', author_id=offer.author.id) }}"> {{
+                offer.author.username }}
+                <img class="rounded-circle profile-image" alt="{{ offer.author.username }}"
+                    src="{{ url_for('static', filename='images/profiles_images/'+ offer.author.profile_image) }}"
+                    data-holder-rendered="true" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="{{ offer.author.username }}">
+            </a>
+        </span>
+    </p>
+</div>
+
+
+
+
+{% endfor %}
+
+<div class="pagination">
+    {% for page_number in offers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+
+    {% if page_number %}
+
+    {% if offers.page == page_number %}
+
+    <a href="{{ url_for('offers', page=page_number) }}" class="active">{{ page_number }}</a>
+
+    {% else %}
+    <a href="{{ url_for('offers', page=page_number) }}">{{ page_number }}</a>
+    {% endif %}
+
+    {% else %}
+    <span>...</span>
+    {% endif %}
+
+
+    {% endfor %}
+
+</div>
+{% endif %}
+
+{% endblock content %}

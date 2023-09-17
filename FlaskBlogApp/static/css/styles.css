@@ -89,6 +89,29 @@ footer {
 	margin: 10px;
 }
 
+.author-info {
+	display: flex;
+	align-items: center;
+}
+
+.author-user {
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+}
+
+.author-details {
+	display: flex;
+	flex-direction: column;
+	margin-left: 10px;
+	/* Adjust the margin as needed */
+}
+
+.author-username {
+	margin-bottom: 5px;
+	/* Adjust the margin as needed */
+}
+
 .a_image {
 	border: 1px solid #ddd;
 	border-radius: 8px;

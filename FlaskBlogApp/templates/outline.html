@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </head>
 
 <body>
@@ -38,7 +40,7 @@
                 {% endwith %}
             </div>
         </div>
-        <div class="row my-3 p-3 bg-body rounded shadow-sm">
+        <div class="row my-3 p-3 bg-body rounded shadow-sm" style="min-height: 650px;">
             {% block content %}
             {% endblock content %}
         </div>
@@ -52,19 +54,7 @@
         </script>
 
 
-    <!-- <script>
-        $(document).ready(function () {
-            $('#filters').change(function () {
-                var checkboxState = $(this).is(':checked') ? 'στα' : '';
 
-                $.ajax({
-                    url: '/checkbox_event',
-                    type: 'POST',
-                    data: { checkbox_state: checkboxState },
-                });
-            });
-        });
-    </script> -->
 
     {% include "footer.html" %}
 </body>

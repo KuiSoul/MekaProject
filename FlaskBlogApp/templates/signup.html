@@ -42,10 +42,8 @@
 
                 <div class="mb-3">
                     <p>Επώνυμο</p>
-                    <!-- {{ form.username.label(class="form-label") }} -->
-                    {{ form.surname(class="form-control", required=False) }}
-                    <!-- <div id="usernameHelp" class="form-text">Παρακαλώ δώστε το ψευδώνυμο της επαφής σας στη MekaReverse:"</div> -->
 
+                    {{ form.surname(class="form-control", required=False) }}
                     {% if form.surname.errors %}
                     <ul class="errors">
                         {% for error in form.surname.errors %}
@@ -117,6 +115,18 @@
                     {% if form.password2.errors %}
                     <ul class=errors>
                         {% for error in form.password2.errors %}
+                        <li class="alert text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <p>reCAPTCHA</p>
+                    <div data-sitekey="6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU">{{ form.recaptcha }}</div>
+                    {% if form.recaptcha.errors %}
+                    <ul class="errors">
+                        {% for error in form.recaptcha.errors %}
                         <li class="alert text-danger">{{ error }}</li>
                         {% endfor %}
                     </ul>

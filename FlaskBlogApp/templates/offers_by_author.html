@@ -19,22 +19,18 @@
 
 <div class="row my-3 p-3 bg-body rounded shadow-sm">
   <div class="col col-md-12">
+    {% if offer.offer_image and offer.offer_image != 'default_offer_image.jpg' %}
+    <center><img src="{{ url_for('static', filename='images/offers_images/'+offer.offer_image) }}" alt=""
+        class="img-responsive a_image" width="640px" height="360px"></center>
+    {% endif %}
+  </div>
+  <div class="col col-md-12">
     <div class="main-article-title">
       <a class="article_title" href="{{ url_for('full_offer', offer_id=offer.id) }}">{{ offer.offer_title | safe }}</a>
     </div>
     <small class="offer_date">[{{ offer.date_created.strftime('%d-%m-%Y') }}]</small>
     <p class="main-offer-partial-text">
       {{ offer.offer_body | truncate(255) | safe }}
-    </p>
-    <p class="">Από
-      <span>
-        <a class="author-name" href="{{ url_for('offers_by_author', author_id=offer.id) }}"> {{ offer.author.username }}
-          <img class="rounded-circle profile-image" alt="{{ offer.author.username }}"
-            src="{{ url_for('static', filename='images/profiles_images/'+offer.author.profile_image) }}"
-            data-holder-rendered="true" data-bs-toggle="tooltip" data-bs-placement="top"
-            title="{{ offer.author.username }}">
-        </a>
-      </span>
     </p>
   </div>
 </div>
@@ -43,19 +39,19 @@
 {% endfor %}
 {% endif %}
 
-
-{% for page_number in offers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-{% if page_number %}
-{% if offers.page == page_number %}
-<a class="btn btn-primary" href="{{ url_for('offers_by_author', author_id=author.id, page=page_number) }}">{{
-  page_number }}</a>
-{% else %}
-<a class="btn btn-outline-primary" href="{{ url_for('offers_by_author', author_id=author.id, page=page_number) }}">{{
-  page_number }}</a>
-{% endif %}
-{% else %}
-<span>...</span>
-{% endif %}
-{% endfor %}
-
+<div class="pagination">
+  {% for page_number in offers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+  {% if page_number %}
+  {% if offers.page == page_number %}
+  <a href="{{ url_for('offers_by_author', author_id=author.id, page=page_number) }}" class="active">{{
+    page_number }}</a>
+  {% else %}
+  <a href="{{ url_for('offers_by_author', author_id=author.id, page=page_number) }}">{{
+    page_number }}</a>
+  {% endif %}
+  {% else %}
+  <span>...</span>
+  {% endif %}
+  {% endfor %}
+</div>
 {% endblock content %}

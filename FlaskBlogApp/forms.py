@@ -52,6 +52,7 @@ class SignupForm(FlaskForm):
                                                 message="Αυτό το πεδίο πρέπει να είναι από 3 έως 15 χαρακτήρες" ),
                                          EqualTo('password',
                                                  message='Τα δύο πεδία password πρέπει να είναι τα ίδια')])
+    
     submit = SubmitField('Εγγραφή')
 
     def validate_username(self, username):
@@ -59,17 +60,27 @@ class SignupForm(FlaskForm):
         user = User.query.filter_by( username=username.data ).first()
         if user:
             raise ValidationError('Αυτό το username υπάρχει ήδη!' )
+    def validate_email_or_username(form, email_username):
+        user = User.query.filter(
+        (User.username == email_username.data) | (User.email == email_username.data)
+    ).first()
+        if user:
+            raise ValidationError('This username or email already exists.')
 
 
 class LoginForm(FlaskForm):
+    # email_or_username = StringField(label="email or username",
+    #                     validators=[DataRequired(message="Αυτό το πεδίο δε μπορεί να είναι κενό.")])
     email = StringField(label="email",
-                        validators=[DataRequired(message="Αυτό το πεδίο δε μπορεί να είναι κενό."),
-                                    Email(message="Παρακαλώ εισάγετε ένα σωστό email")])
+                        validators=[DataRequired(message="Αυτό το πεδίο δε μπορεί να είναι κενό.")])
     password = StringField( label="password",
                             validators=[DataRequired(message="Αυτό το πεδίο δεν πρέπει να μείνει κενό.")])
     remember_me = BooleanField(label="Remember me")
     submit = SubmitField('Είσοδος')
 
+class ContactForm(FlaskForm):
+    option = StringField('Option')
+    description = TextAreaField('Description', validators=[DataRequired()])
 
 class NewArticleForm(FlaskForm):
     article_title = StringField(label="Τίτλος Άρθρου",
@@ -133,5 +144,10 @@ class NewOfferForm(FlaskForm):
                                 validators=[DataRequired(message="Αυτό το πεδίο δεν πρέπει να είναι κενό."),
                                             Length(min=50, message="Το κείμενο του άρθρου πρέπει να έχει τουλάχιστον "
                                                                    "50 χαρακτήρες.")])
+    offer_image = FileField('Εικόνα Άρθρου', validators=[Optional(strip_whitespace=True),
+                                                            FileAllowed(['jpg', 'jpeg', 'png'],
+                                                                            'Επιτρέπονται μόνο αρχεία εικόνων τύπου jpg, '
+                                                                            'jpeg και png!'),
+                                                            maxImageSize(max_size=2)])
 
     submit = SubmitField('Καταχώριση')
