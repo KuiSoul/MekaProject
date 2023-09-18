@@ -7,50 +7,38 @@ Base
 
 {% block content %}
 
-<script>
-  $(document).ready(function () {
-    $('input[type="checkbox"]').change(function () {
-      const clickedCheckbox = $(this); // Get the clicked checkbox element
 
-      // Uncheck all other checkboxes except the clicked one
-      $('input[type="checkbox"]').not(clickedCheckbox).prop('checked', false);
-
-      const checkedValues = $('input[type="checkbox"]:checked').map(function () {
-        if ($(this).is(':checked')) {
-          return this.value;
-        }
-      }).get();
-      window.open('/filtering?filters=' + checkedValues, '_blank');
-    });
-  });
-</script>
 
 <div class="container-fluid" style="height: 20%;">
   <div class="row">
-    <div class="col-sm" style="color: red;">ΦΙΛΤΡΑ</div>
-    <div class="col-sm">ΕΙΔΟΣ ΑΓΓΕΛΙΑΣ<br>
-      <input type="checkbox" id="filters1" name="filters" value="στα" onclick="selectOnlyThis(this.id)">
-      <label for="filters">στα</label><br>
-      <input type="checkbox" id="filters2" name="filters" value="Car" onclick="selectOnlyThis(this.id)">
-      <label for="vehicle2">Το χρειάζομαι</label><br>
-      <input type="checkbox" id="filters3" name="filters" value="Boat" onclick="selectOnlyThis(this.id)">
-      <label for="vehicle3">The Collectives είναι εξαιρετικές.</label>
-    </div>
-    <div class="col-sm">ΤΟΠΟΘΕΣΙΑ<br>
-      <input type="checkbox" id="filters4" name="filters" value="περιοχη" onclick="selectOnlyThis(this.id)">
-      <label for="filters">περιοχη</label><br>
-      <input type="checkbox" id="filters5" name="filters" value="Car" onclick="selectOnlyThis(this.id)">
-      <label for="vehicle2">Περιοχή(Επίπεδο 2)</label><br>
-      <input type="checkbox" id="filters6" name="filters" value="Boat" onclick="selectOnlyThis(this.id)">
-      <label for="vehicle3">Απόσταση(χιλιόμετρα)</label>
-    </div>
-    <div class="col-sm">ΧΡΟΝΟΣ<br>
-      <input type="checkbox" id="filters7" name="filters7" value="Επικοινωνία" onclick="selectOnlyThis(this.id)">
-      <label for="vehicle1"> Επικοινωνία </label><br>
-      <input type="checkbox" id="filters8" name="filters8" value="Car" onclick="selectOnlyThis(this.id)">
-      <label for="vehicle2"> 7 ημέρες </label><br>
-      <input type="checkbox" id="filters9" name="filters9" value="Boat" onclick="selectOnlyThis(this.id)">
-      <label for="vehicle3"> 1 μήνας </label>
+    <div class="col-sm-3" style="color: red;"><br>ΦΙΛΤΡΑ</div>
+    <div class="col-sm-9">
+      <form id="filter-form" class="row" method="POST">
+        <div class="col-sm-4">ΕΙΔΟΣ ΑΓΓΕΛΙΑΣ<br>
+          <input type="checkbox" name="filters" value="στα">
+          <label for="filters">στα</label><br>
+          <input type="checkbox" name="filters" value="Car">
+          <label for="filters">Το χρειάζομαι</label><br>
+          <input type="checkbox" name="filters" value="Boat">
+          <label for="filters">The Collectives είναι εξαιρετικές.</label>
+        </div>
+        <div class="col-sm-4">ΤΟΠΟΘΕΣΙΑ<br>
+          <input type="checkbox" name="filters" value="περιοχη">
+          <label for="filters">περιοχη</label><br>
+          <input type="checkbox" name="filters" value="Car">
+          <label for="filters">Περιοχή(Επίπεδο 2)</label><br>
+          <input type="checkbox" name="filters" value="Boat">
+          <label for="filters">Απόσταση(χιλιόμετρα)</label>
+        </div>
+        <div class="col-sm-4">ΧΡΟΝΟΣ<br>
+          <input type="checkbox" name="filters" value="Επικοινωνία">
+          <label for="filters"> Επικοινωνία </label><br>
+          <input type="checkbox" name="filters" value="Car">
+          <label for="filters"> 7 ημέρες </label><br>
+          <input type="checkbox" name="filters" value="Boat">
+          <label for="filters"> 1 μήνας </label>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -58,14 +46,19 @@ Base
 {% for offer in offers.items %}
 <div class="col col-md-4" style="padding: 40px;">
 
-  {% if offer.offer_image and offer.offer_image != 'default_offer_image.jpg' %}
-  <img src="{{ url_for('static', filename='images/offers_images/'+offer.offer_image) }}" alt=""
+  {% if offer.offer_image and offer.offer_image != ' default_offer_image.jpg' %} <img
+    src="{{ url_for('static', filename='images/offers_images/'+offer.offer_image) }}" alt=""
     class="img-responsive a_image" width="100%" height="300px">
   {% endif %}
   <div class="main-article-title">
-    <a class="article_title" href="{{ url_for('full_offer', offer_id=offer.id) }}">{{ offer.offer_title | safe }}</a>
+    <a class="article_title" href="{{ url_for('full_offer', offer_id=offer.id) }}">{{ offer.offer_title | safe
+      }}</a>
   </div>
   <small class="article_date">[{{ offer.date_created.strftime('%d-%m-%Y') }}]</small>
+  <!-- Display the view count for the ad -->
+  <p class="view-count">
+    Views: {{ offer.views_count }}
+  </p>
   <p class="main-article-partial-text">
     {{ offer.offer_body | truncate(100) | safe }}
   </p>
@@ -80,6 +73,7 @@ Base
       </a>
     </span>
   </p>
+
 </div>
 
 
@@ -109,5 +103,17 @@ Base
 
 </div>
 {% endif %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var filterForm = document.getElementById("filter-form");
 
+    // Add event listeners to filter options
+    var filterOptions = filterForm.querySelectorAll("input[type=checkbox], select");
+    filterOptions.forEach(function (option) {
+      option.addEventListener("change", function () {
+        filterForm.submit(); // Trigger form submission
+      });
+    });
+  });
+</script>
 {% endblock content %}

@@ -41,8 +41,6 @@ app.config['RECAPTCHA_SECRET_KEY'] = '6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91'
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'
 app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
 
-# app.config['RECAPTCHA_PUBLIC_KEY'] = '6LdXYSkoAAAAAEuVjIhREhDCS2PHUN4U1oMyezJD'
-
 class SignupForm(FlaskForm):
     name = StringField('Όνομα', validators=[DataRequired()])
     surname = StringField('Επώνυμο', validators=[DataRequired()])
@@ -113,13 +111,19 @@ def blog():
     the_blog = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("blog.html", blog=the_blog)
 
-@app.route("/base/")
+@app.route("/base/", methods=["GET", "POST"])
 @login_required
 def offers():
+    if request.method == "POST":
+        # Perform filtering
+        filters = request.form.get("filters")  # Replace "filter_value" with the name of your filter input
+        query = Offer.query.filter(Offer.offer_body.contains(filters) | Offer.offer_title.contains(filters))  # Replace "filter_column" with the applicable column name in your Offer model
+    else:
+        # Display all data
+        query = Offer.query
     page = request.args.get("page", 1, type=int)
-    the_base = Offer.query.order_by(Offer.date_created.desc()).paginate(per_page=6, page=page)
+    the_base = query.order_by(Offer.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("base.html", offers=the_base)
-
 
 @app.route("/articles_by_author/<int:author_id>")
 def articles_by_author(author_id):
@@ -132,7 +136,7 @@ def articles_by_author(author_id):
 @app.route("/offers_by_author/<int:author_id>")
 def offers_by_author(author_id):
     user = User.query.get_or_404(author_id)
-    page = request.args.get("page", 1, type=int)
+    page = request.args.get("page", 1, type=int)    
     the_offers = Offer.query.filter_by(author=user).order_by(Offer.date_created.desc()).paginate(per_page=5, page=page)
     return render_template("offers_by_author.html", offers=the_offers, author=user)
 
@@ -166,7 +170,6 @@ def signup():
 def submittion_form():
     recaptcha_response = request.form.get('g-recaptcha-response')
     secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
-    # secret_key = app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
     verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
     response = requests.get(verify_url)
     data = response.json()
@@ -262,7 +265,6 @@ def contact():
 def submitter_form():
     recaptcha_response = request.form.get('g-recaptcha-response')
     secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
-    # secret_key = app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
     verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
     response = requests.get(verify_url)
     data = response.json()
@@ -307,6 +309,8 @@ def filtering():
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
 def full_offer(offer_id):
     offer = Offer.query.get_or_404(offer_id)
+    offer.views_count += 1
+    db.session.commit()
     return render_template("full_offer.html", offer=offer)
 
 
@@ -447,7 +451,6 @@ def login():
 def submit_form():
     recaptcha_response = request.form.get('g-recaptcha-response')
     secret_key = g.app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
-    # secret_key = g.app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
     verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
     response = requests.get(verify_url)
     data = response.json()

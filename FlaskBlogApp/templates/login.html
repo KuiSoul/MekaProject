@@ -61,12 +61,10 @@
 
           <div data-sitekey="{{ g.app.config['6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'] }}" data-callback="onSubmit">{{
             form.recaptcha }}</div>
-          <!-- <div data-sitekey="{{ g.app.config['6LdXYSkoAAAAAEuVjIhREhDCS2PHUN4U1oMyezJD'] }}" data-callback="onSubmit">{{
-            form.recaptcha }}</div> -->
           {% if form.recaptcha.errors %}
           <ul class="errors">
             {% for error in form.recaptcha.errors %}
-            <li class="alert text-danger">{{ error }}</li>
+            <li class="alert text-danger">Παρακαλώ συμπληρώστε σωστά το reCaptcha</li>
             {% endfor %}
           </ul>
           {% endif %}

@@ -59,7 +59,7 @@
       <br>
       <br>
       <a href="{{ url_for('offers_by_author', author_id=offer.author.id) }}" style="color: red;font-size: 2em;">Διαβάστε
-        περισσότερα από [όνομα μέλους]</a>
+        περισσότερα από [{{offer.author.username }}]</a>
     </div>
   </div>
   {% endif %}

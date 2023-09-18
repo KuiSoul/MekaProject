@@ -45,6 +45,7 @@ class Offer(db.Model):
     offer_image = db.Column(db.String(30), nullable=False, default='default_offer_image.jpg')
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    views_count = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         return f"{self.date_created}: {self.offer_title}"
