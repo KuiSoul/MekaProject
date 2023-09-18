@@ -57,8 +57,10 @@ Contact
         <br>
         <div class="mb-3">
           <p>reCAPTCHA</p>
-          <!-- <div data-sitekey="6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU">{{ form.recaptcha }}</div> -->
-          <div data-sitekey="6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1">{{ form.recaptcha }}</div>
+          <!-- <div data-sitekey="{{ g.app.config['6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'] }}" data-callback="onSubmit">{{
+            form.recaptcha }}</div> -->
+          <div data-sitekey="{{ g.app.config['6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1'] }}" data-callback="onSubmit">{{
+            form.recaptcha }}</div>
           {% if form.recaptcha.errors %}
           <ul class="errors">
             {% for error in form.recaptcha.errors %}

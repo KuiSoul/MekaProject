@@ -14,6 +14,7 @@ from FlaskBlogApp.forms import SignupForm, LoginForm, NewArticleForm, AccountUpd
 from FlaskBlogApp import app, db, bcrypt
 from FlaskBlogApp.models import User, Article, Offer
 from sqlalchemy import literal
+from flask import g
 
 
 
@@ -37,7 +38,7 @@ mail.init_app(app)
 
 app.config['SECRET_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
 # app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'
-# app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
+app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
 
 app.config['RECAPTCHA_PUBLIC_KEY'] = '6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1'
 
@@ -65,7 +66,7 @@ class LoginForm(FlaskForm):
 class ContactForm(FlaskForm):
     option = StringField('Option')
     description = TextAreaField('Description', validators=[DataRequired()])
-    recaptcha = RecaptchaField() 
+    recaptcha = RecaptchaField()
 
 
 
@@ -138,7 +139,7 @@ def offers_by_author(author_id):
 @app.route("/signup/", methods=["GET", "POST"])
 def signup():    
     form = SignupForm()
-
+    g.app = app
     if request.method == 'POST' and form.validate_on_submit():       
         
         username = form.username.data
@@ -159,39 +160,24 @@ def signup():
 
         flash(f"Ο λογαριασμός για τον χρήστη <b>{username}</b> δημιουργήθηκε με επιτυχία", "success")
         return redirect(url_for('login'))    
-    if not form.recaptcha.data:
-        flash('Please complete the reCAPTCHA.')
-        return render_template('signup.html', form=form)
     return render_template("signup.html", form=form)
 
+def submittion_form():
+    recaptcha_response = request.form.get('g-recaptcha-response')
+    secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
+    # secret_key = app.config['6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1']
+    verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
+    response = requests.get(verify_url)
+    data = response.json()
 
-@app.route("/login/", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if current_user.is_authenticated:
-        return redirect(url_for("root"))
-    if request.method == 'POST' and form.validate_on_submit():
-                  
-        # email_or_username = request.form.get('email') or request.form.get('username')
-        # email_or_username = form.email_or_username.data
-        email = form.email.data
-        password = form.password.data
-        user = User.query.filter_by(email=email).first()
-        # user = User.query.filter((User.email == email_or_username) | (User.username == email_or_username)).first()
-        # if user and bcrypt.check_password_hash(user.password, password):
-        #     flash(f"User with email or username: {email_or_username} logged in successfully.", "success")
-        if user and bcrypt.check_password_hash(user.password, password):
-            flash(f"Η είσοδος του χρήστη με email: {email} στη σελίδα μας έγινε με επιτυχία.", "success")
-            login_user(user, remember=form.remember_me.data)
-            next_link = request.args.get("next")
-            return redirect(next_link) if next_link else redirect(url_for("root"))
-        else:
-            flash("Η είσοδος του χρήστη ήταν ανεπιτυχής, παρακαλούμε δοκιμάστε ξανά με τα σωστά email/password.", "warning")
-        if not form.recaptcha.data:
-            flash('Please complete the reCAPTCHA.')
-            return render_template('signup.html', form=form)     
-    return render_template("login.html", form=form)
-
+    if data['success']:
+        
+        flash('Form submitted successfully!')
+        return render_template('index.html')  
+       
+    else:
+        flash('Please complete the reCAPTCHA.')
+        return render_template('signup.html')  
 
 @app.route("/logout/")
 def logout():
@@ -262,18 +248,32 @@ def new_offer():
 @login_required
 def contact():
     form = ContactForm()
+    g.app = app
     
     if request.method == 'POST' and form.validate_on_submit():
 
             option = request.form.get('option')
             description = form.description.data
             send_email(option, description)
-            
-    if not form.recaptcha.data:
-        flash('Please complete the reCAPTCHA.')
-        return render_template('contact.html', form=form)    
     
     return render_template("contact.html", form=form, page_title="Καταχώριση Νέας Αγγελίας")
+
+def submitter_form():
+    recaptcha_response = request.form.get('g-recaptcha-response')
+    # secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
+    secret_key = app.config['6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1']
+    verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
+    response = requests.get(verify_url)
+    data = response.json()
+
+    if data['success']:
+        
+        flash('Form submitted successfully!')
+        return render_template('index.html')  
+       
+    else:
+        flash('Please complete the reCAPTCHA.')
+        return render_template('contact.html')  
 
 def send_email(option, description):
     msg = Message('New Contact Form Submission', sender='yourapp@example.com', recipients=['admin@example.com'])
@@ -300,11 +300,7 @@ def filtering():
     filters = request.args.get('filters')
     data = Offer.query.filter(Offer.offer_body.contains(filters) | Offer.offer_title.contains(filters)).paginate(per_page=6, page=page)
     return render_template("filtering.html", offers=data)
-    # if data: 
-    #     return render_template("base.html", offers=data)
-    # flash("Η αγγελία δεν βρέθηκε.", "warning")
-    # return render_template("index.html")    
-    # return jsonify(html=filtered_offers_html)
+    
 
 
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
@@ -425,3 +421,42 @@ def edit_offer(offer_id):
         flash(f"Η αγγελία με τίτλο <b>{offer.offer_title}</b> ενημερώθηκε με επιτυχία.", "success")
         return redirect(url_for('root'))
     return render_template("new_offer.html", form=form, page_title="Επεξεργασία Άγγελίας")
+
+import requests
+
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    g.app = app
+    if current_user.is_authenticated:
+        return redirect(url_for("root"))
+    if request.method == 'POST' and form.validate_on_submit():                 
+        
+        email_or_username = form.email.data
+        password = form.password.data
+        user = User.query.filter((User.email == email_or_username) | (User.username == email_or_username)).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            flash(f"Η είσοδος του χρήστη με email: {email_or_username} στη σελίδα μας έγινε με επιτυχία.", "success")
+            login_user(user, remember=form.remember_me.data)
+            next_link = request.args.get("next")
+            return redirect(next_link) if next_link else redirect(url_for("root"))
+        else:
+            flash("Η είσοδος του χρήστη ήταν ανεπιτυχής, παρακαλούμε δοκιμάστε ξανά με τα σωστά email/password.", "warning")        
+    return render_template("login.html", form=form)
+def submit_form():
+    recaptcha_response = request.form.get('g-recaptcha-response')
+    # secret_key = g.app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
+    secret_key = g.app.config['6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1']
+    verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
+    response = requests.get(verify_url)
+    data = response.json()
+
+    if data['success']:
+        
+        flash('Form submitted successfully!')
+        return render_template('signup.html')  
+       
+    else:
+        flash('Please complete the reCAPTCHA.')
+        return render_template('signup.html')  
+

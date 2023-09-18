@@ -10,9 +10,12 @@ Base
 <script>
   $(document).ready(function () {
     $('input[type="checkbox"]').change(function () {
-      const checkedValues = $('input[type="checkbox"]:checked').map(function () {
-        $('input[type="checkbox"]').not(this).prop('checked', false);
+      const clickedCheckbox = $(this); // Get the clicked checkbox element
 
+      // Uncheck all other checkboxes except the clicked one
+      $('input[type="checkbox"]').not(clickedCheckbox).prop('checked', false);
+
+      const checkedValues = $('input[type="checkbox"]:checked').map(function () {
         if ($(this).is(':checked')) {
           return this.value;
         }

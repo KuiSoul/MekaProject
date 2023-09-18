@@ -18,7 +18,7 @@
   <br>
   <div class="row">
     <div class="col-md-6 login-form-1">
-      <form method="POST">
+      <form id="recaptcha-form" method="POST" action="/login/">
         {{ form.csrf_token }}
 
         <div class="mb-3">
@@ -58,8 +58,11 @@
         </div>
         <div class="mb-3">
           <p>reCAPTCHA</p>
-          <!-- <div data-sitekey="6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU">{{ form.recaptcha }}</div> -->
-          <div data-sitekey="6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1">{{ form.recaptcha }}</div>
+
+          <!-- <div data-sitekey="{{ g.app.config['6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'] }}" data-callback="onSubmit">{{
+            form.recaptcha }}</div> -->
+          <div data-sitekey="{{ g.app.config['6LdSTygoAAAAAFC-Qd6UepXrQv8ZGG_1YUeaX7_1'] }}" data-callback="onSubmit">{{
+            form.recaptcha }}</div>
           {% if form.recaptcha.errors %}
           <ul class="errors">
             {% for error in form.recaptcha.errors %}
@@ -69,7 +72,8 @@
           {% endif %}
         </div>
         <div class="mb-3">
-          <input class="btn btn-primary" type="submit" name="submit" id="submit" value="ΣΥΝΔΕΣΗ ΜΕΛΟΥΣ">
+          <button class="btn btn-primary" type="submit" name="submit" id="submit" value="ΣΥΝΔΕΣΗ ΜΕΛΟΥΣ">
+            ΣΥΝΔΕΣΗ ΜΕΛΟΥΣ</button>
         </div>
       </form>
 
