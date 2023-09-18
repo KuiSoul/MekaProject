@@ -36,12 +36,12 @@ app.config["MAIL_USERNAME"] = 'contact@example.com'
 app.config["MAIL_PASSWORD"] = 'your-password'
 mail.init_app(app)
 
-# app.config['SECRET_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
-app.config['SECRET_KEY'] = '6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91'
-# app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'
-# app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
+app.config['SECRET_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
+app.config['RECAPTCHA_SECRET_KEY'] = '6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91'
+app.config['RECAPTCHA_PUBLIC_KEY'] = '6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'
+app.config['RECAPTCHA_PRIVATE_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
 
-app.config['RECAPTCHA_PUBLIC_KEY'] = '6LdXYSkoAAAAAEuVjIhREhDCS2PHUN4U1oMyezJD'
+# app.config['RECAPTCHA_PUBLIC_KEY'] = '6LdXYSkoAAAAAEuVjIhREhDCS2PHUN4U1oMyezJD'
 
 class SignupForm(FlaskForm):
     name = StringField('Όνομα', validators=[DataRequired()])
@@ -165,8 +165,8 @@ def signup():
 
 def submittion_form():
     recaptcha_response = request.form.get('g-recaptcha-response')
-    # secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
-    secret_key = app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
+    secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
+    # secret_key = app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
     verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
     response = requests.get(verify_url)
     data = response.json()
@@ -261,8 +261,8 @@ def contact():
 
 def submitter_form():
     recaptcha_response = request.form.get('g-recaptcha-response')
-    # secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
-    secret_key = app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
+    secret_key = app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
+    # secret_key = app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
     verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
     response = requests.get(verify_url)
     data = response.json()
@@ -446,8 +446,8 @@ def login():
     return render_template("login.html", form=form)
 def submit_form():
     recaptcha_response = request.form.get('g-recaptcha-response')
-    # secret_key = g.app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
-    secret_key = g.app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
+    secret_key = g.app.config['6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk']
+    # secret_key = g.app.config['6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91']
     verify_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={recaptcha_response}"
     response = requests.get(verify_url)
     data = response.json()

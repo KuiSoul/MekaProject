@@ -59,10 +59,10 @@
         <div class="mb-3">
           <p>reCAPTCHA</p>
 
-          <!-- <div data-sitekey="{{ g.app.config['6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'] }}" data-callback="onSubmit">{{
-            form.recaptcha }}</div> -->
-          <div data-sitekey="{{ g.app.config['6LdXYSkoAAAAAEuVjIhREhDCS2PHUN4U1oMyezJD'] }}" data-callback="onSubmit">{{
+          <div data-sitekey="{{ g.app.config['6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'] }}" data-callback="onSubmit">{{
             form.recaptcha }}</div>
+          <!-- <div data-sitekey="{{ g.app.config['6LdXYSkoAAAAAEuVjIhREhDCS2PHUN4U1oMyezJD'] }}" data-callback="onSubmit">{{
+            form.recaptcha }}</div> -->
           {% if form.recaptcha.errors %}
           <ul class="errors">
             {% for error in form.recaptcha.errors %}
