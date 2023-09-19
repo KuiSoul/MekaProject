@@ -140,11 +140,19 @@ class NewOfferForm(FlaskForm):
                               validators=[DataRequired(message="Αυτό το πεδίο δεν πρέπει να είναι κενό."),
                                           Length(min=3, max=50, message="Αυτό το πεδίο πρέπει να είναι από 3 έως 50 "
                                                                           "χαρακτήρες.")])
+    offer_type = StringField(label="Είδος Διαφήμισης",
+                              validators=[DataRequired(message="Αυτό το πεδίο δεν πρέπει να είναι κενό."),
+                                          Length(min=3, max=50, message="Αυτό το πεδίο πρέπει να είναι από 3 έως 50 "
+                                                                          "χαρακτήρες.")])
+    offer_location = StringField(label="Τοποθεσία",
+                              validators=[DataRequired(message="Αυτό το πεδίο δεν πρέπει να είναι κενό."),
+                                          Length(min=3, max=50, message="Αυτό το πεδίο πρέπει να είναι από 3 έως 50 "
+                                                                          "χαρακτήρες.")])
     offer_body = TextAreaField( label="Κείμενο",
                                 validators=[DataRequired(message="Αυτό το πεδίο δεν πρέπει να είναι κενό."),
                                             Length(min=50, message="Το κείμενο του άρθρου πρέπει να έχει τουλάχιστον "
                                                                    "50 χαρακτήρες.")])
-    offer_image = FileField('Εικόνα Άρθρου', validators=[Optional(strip_whitespace=True),
+    offer_image = FileField('Εικόνα προσφοράς', validators=[Optional(strip_whitespace=True),
                                                             FileAllowed(['jpg', 'jpeg', 'png'],
                                                                             'Επιτρέπονται μόνο αρχεία εικόνων τύπου jpg, '
                                                                             'jpeg και png!'),

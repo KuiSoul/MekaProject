@@ -230,9 +230,9 @@ def new_offer():
         offer_title = form.offer_title.data
         offer_body = form.offer_body.data
 
-        if form.article_image.data:
+        if form.offer_image.data:
             try:
-                image_file = image_save(form.article_image.data, 'articles_images', (640, 360))
+                image_file = image_save(form.offer_image.data, 'offers_images', (640, 360))
             except:
                 abort(415)
             offer = Offer(offer_title=offer_title,

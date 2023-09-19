@@ -12,7 +12,7 @@
 <div class="container login-container">
   <div class="row">
     <div class="col-md-6 login-form-1">
-      <h3>{{ page_title }}</h3>
+      <h3>Δημιουργία Νέας Προσφοράς</h3>
 
       <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
@@ -20,7 +20,7 @@
         <div class="mb-3">
           {{ form.offer_title.label(class="form-label") }}
           {{ form.offer_title(class="form-control", required=False) }}
-          <div id="offer_titleHelp" class="form-text">Παρακαλώ καθορίστε το θέμα της αγγελίας.</div>
+          <div id="offer_titleHelp" class="form-text">Προσδιορίστε το θέμα της προσφοράς.</div>
           {% if form.offer_title.errors %}
           <ul class=errors>
             {% for error in form.offer_title.errors %}
@@ -30,6 +30,31 @@
           {% endif %}
         </div>
 
+        <div class="mb-3">
+          {{ form.offer_type.label(class="form-label") }}
+          {{ form.offer_type(class="form-control", required=False) }}
+          <div id="offer_typeHelp" class="form-text">Προσδιορίστε το είδος της προσφοράς.</div>
+          {% if form.offer_type.errors %}
+          <ul class=errors>
+            {% for error in form.offer_type.errors %}
+            <li class="alert text-danger">{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.offer_location.label(class="form-label") }}
+          {{ form.offer_location(class="form-control", required=False) }}
+          <div id="offer_locationHelp" class="form-text">Καθορίστε την τοποθεσία της προσφοράς.</div>
+          {% if form.offer_title.errors %}
+          <ul class=errors>
+            {% for error in form.offer_location.errors %}
+            <li class="alert text-danger">{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
 
         <div class="mb-3">
           {{ form.offer_body.label(class="form-label") }}
@@ -48,7 +73,7 @@
         <div class="mb-3">
           {{ form.offer_image.label(class="form-label") }}
           {{ form.offer_image(class="form-control") }}
-          <div id="offer_imageHelp" class="form-text">Παρακαλώ δώστε μία εικόνα για το άρθρο σας.</div>
+          <div id="offer_imageHelp" class="form-text">Δώστε μια εικόνα για το άρθρο σας.</div>
           {% if form.offer_image.errors %}
           <ul class=errors>
             {% for error in form.offer_image.errors %}
