@@ -23,6 +23,13 @@
         <li class="nav-item">
           <a class="navbar-brand" href="/contact/">ΕΠΙΚΟΙΝΩΝΙΑ</a>
         </li>
+
+        {% if current_user.is_authenticated and current_user.username == "admin" %}
+        <li class="nav-item">
+          <a class="navbar-brand" href="/admin/">ADMIN</a>
+        </li>
+        {% endif %}
+
         {% if current_user.is_authenticated %}
 
         <li class="nav-item dropdown">
@@ -36,15 +43,12 @@
           </a>
 
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
             <li>
               <a class="dropdown-item" href="/account/">{{ current_user.username }}</a>
             </li>
-
             <li>
               <a class="dropdown-item" href="/logout/">Έξοδος</a>
             </li>
-
           </ul>
 
         </li>

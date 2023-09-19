@@ -25,7 +25,7 @@ from flask_wtf.recaptcha import RecaptchaField
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 from flask_mail import Mail, Message
-
+from flask import current_app
 app.secret_key = 'my_secrest_key'
 
 mail = Mail()
