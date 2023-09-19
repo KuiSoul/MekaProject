@@ -46,7 +46,7 @@ Base
 {% for offer in offers.items %}
 <div class="col col-md-4" style="padding: 40px;">
 
-  {% if offer.offer_image and offer.offer_image != ' default_offer_image.jpg' %} <img
+  {% if offer.offer_image and offer.offer_image != 'default_offer_image.jpg' %} <img
     src="{{ url_for('static', filename='images/offers_images/'+offer.offer_image) }}" alt=""
     class="img-responsive a_image" width="100%" height="300px">
   {% endif %}

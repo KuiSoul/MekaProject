@@ -60,7 +60,7 @@
       <br>
       <br>
       <a href="{{ url_for('articles_by_author', author_id=article.author.id) }}"
-        style="color: red;font-size: 2em;">Διαβάστε περισσότερα από [όνομα μέλους]</a>
+        style="color: red;font-size: 2em;">Διαβάστε περισσότερα από [{{article.author.username }}]</a>
     </div>
 
     {% endif %}
