@@ -35,7 +35,11 @@ Admin
             <td>{{ user.name }}</td>
             <td>{{ user.surname }}</td>
             <td>{{ user.recommender }}</td>
-            <td id="delete-cell"><a href="{{delete}}">delete</a></td>
+            <td id="delete-cell">
+                <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="delete">
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
@@ -63,7 +67,11 @@ Admin
             <td>{{ article.article_image }}</td>
             <td>{{ article.date_created }}</td>
             <td id="id-cell">{{ article.user_id }}</td>
-            <td id="delete-cell"> <a href="{{delete}}">delete</a></td>
+            <td id="delete-cell">
+                <form action="{{ url_for('article_delete', article_id=article.id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="delete">
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
@@ -97,44 +105,14 @@ Admin
             <td>{{ offer.views_count }}</td>
             <td>{{ offer.offer_type }}</td>
             <td>{{ offer.offer_location }}</td>
-            <td id="delete-cell"><a href="{{delete}}">delete</a></td>
+            <td id="delete-cell">
+                <form action="{{ url_for('ad_delete', offer_id=offer.id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="delete">
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Handle click event on delete cells
-        $(".delete-cell").click(function () {
-            // Get the row containing the delete button
-            var row = $(this).closest("tr");
-            // Get the ID from the corresponding cell
-            var id = row.find(".id-cell").text();
-
-            // Send AJAX request to the server to delete the data
-            $.ajax({
-                url: "/delete/",
-                method: "POST",
-                data: { id: id },
-                success: function (response) {
-                    // Handle the response from the server
-                    if (response.success) {
-                        // Data deleted successfully
-                        row.remove(); // Remove the row from the table
-                    } else {
-                        // Error occurred during deletion
-                        alert("Failed to delete data. Please try again.");
-                    }
-                },
-                error: function () {
-                    // Error occurred during the AJAX request
-                    alert("An error occurred. Please try again.");
-                }
-            });
-        });
-    });
-</script> -->
 
 {% endblock content %}

@@ -341,14 +341,6 @@ def delete_offer(offer_id):
     flash("Η αγγελία δεν βρέθηκε.", "warning")
     return redirect(url_for("root"))
 
-@app.route('/my_articles/', methods=["GET", "POST"] )
-def my_articles():
-    articles = Article.query.filter_by(author=current_user).all()
-    if articles:
-        return render_template('articles_by_author.html', articles=articles)
-    flash("Η αγγελία δεν βρέθηκε.", "warning")
-    return render_template("index.html")
-
 @app.route('/my_offers/', methods=["GET", "POST"] )
 def my_offers():
     offers = Article.query.filter_by(author=current_user).all()
@@ -472,3 +464,53 @@ def admin_page():
     # Render the admin page template with the data
     return render_template('admin.html', articles=articles, offers=offers, users=users)
 
+@app.route('/delete_user/<int:user_id>', methods= ["GET", "POST"])
+@login_required
+def delete_user(user_id):
+    user = User.query.filter_by(id = user_id).first_or_404()
+    
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        flash("Ο χρήστης έχει διαγραφεί.", "success")
+        articles = Article.query.all()
+        offers = Offer.query.all()
+        users = User.query.all()
+        # Render the admin page template with the data
+        return render_template('admin.html', articles=articles, offers=offers, users=users)
+    flash("Ο χρήστης δεν βρέθηκε.", "warning")
+    return render_template('index.html')
+
+@app.route('/article_delete/<int:article_id>', methods= ["GET", "POST"])
+@login_required
+def article_delete(article_id):
+    article = Article.query.filter_by(id = article_id).first_or_404()
+    
+    if article:
+        db.session.delete(article)
+        db.session.commit()
+        flash("Ο χρήστης έχει διαγραφεί.", "success")
+        articles = Article.query.all()
+        offers = Offer.query.all()
+        users = User.query.all()
+        # Render the admin page template with the data
+        return render_template('admin.html', articles=articles, offers=offers, users=users)
+    flash("Ο χρήστης δεν βρέθηκε.", "warning")
+    return render_template('index.html')
+
+@app.route('/ad_delete/<int:offer_id>', methods= ["GET", "POST"])
+@login_required
+def ad_delete(offer_id):
+    offer = Offer.query.filter_by(id = offer_id).first_or_404()
+    
+    if offer:
+        db.session.delete(offer)
+        db.session.commit()
+        flash("Ο χρήστης έχει διαγραφεί.", "success")
+        articles = Article.query.all()
+        offers = Offer.query.all()
+        users = User.query.all()
+        # Render the admin page template with the data
+        return render_template('admin.html', articles=articles, offers=offers, users=users)
+    flash("Ο χρήστης δεν βρέθηκε.", "warning")
+    return render_template('index.html')
