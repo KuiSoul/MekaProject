@@ -1,0 +1,99 @@
+{% extends "outline.html" %}
+
+
+{% block title %}
+Admin
+{% endblock title %}
+
+{% block content %}
+
+<h2>Articles:</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th id="id-header">id</th>
+            <th>article title</th>
+            <th id="body-header">artilce body</th>
+            <th>article image</th>
+            <th>date created</th>
+            <th id="id-header">user id</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for article in articles %}
+        <tr>
+            <td id="id-cell">{{ article.id }}</td>
+            <td>{{ article.article_title }}</td>
+            <td id="body-cell">{{ article.article_body }}</td>
+            <td>{{ article.article_image }}</td>
+            <td>{{ article.date_created }}</td>
+            <td id="id-cell">{{ article.user_id }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h2>Offers:</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th id="id-header">id</th>
+            <th>offer title</th>
+            <th id="body-header">offer body</th>
+            <th>date created</th>
+            <th id="id-header">user id</th>
+            <th>offer image</th>
+            <th>views count</th>
+            <th>offer type</th>
+            <th>offer location</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for offer in offers %}
+        <tr>
+            <td id="id-cell">{{ offer.id }}</td>
+            <td>{{ offer.offer_title }}</td>
+            <td id="body-cell">{{ offer.offer_body }}</td>
+            <td>{{ offer.date_created }}</td>
+            <td id="id-cell">{{ offer.user_id }}</td>
+            <td>{{ offer.offer_image }}</td>
+            <td>{{ offer.views_count }}</td>
+            <td>{{ offer.offer_type }}</td>
+            <td>{{ offer.offer_location }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Users:</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th id="id-header">id</th>
+            <th>username</th>
+            <th>email</th>
+            <th>password</th>
+            <th>profile image</th>
+            <th>contact username</th>
+            <th>name</th>
+            <th>surname</th>
+            <th>recommender</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td id="id-cell">{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.password }}</td>
+            <td>{{ user.profile_image }}</td>
+            <td>{{ user.contact_username }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.surname }}</td>
+            <td>{{ user.recommender }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

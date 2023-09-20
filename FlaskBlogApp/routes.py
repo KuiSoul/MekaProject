@@ -435,11 +435,10 @@ def login():
     g.app = app
     if current_user.is_authenticated:
         return redirect(url_for("root"))
-    if request.method == 'POST' and form.validate_on_submit():                 
-        
+    if request.method == 'POST' and form.validate_on_submit():       
         email_or_username = form.email.data
         password = form.password.data
-        user = User.query.filter((User.email == email_or_username) | (User.username == email_or_username)).first()
+        user = User.query.filter((User.email == email_or_username) | (User.username == email_or_username)).first()        
         if user and bcrypt.check_password_hash(user.password, password):
             flash(f"Η είσοδος του χρήστη με email: {email_or_username} στη σελίδα μας έγινε με επιτυχία.", "success")
             login_user(user, remember=form.remember_me.data)
@@ -462,5 +461,14 @@ def submit_form():
        
     else:
         flash('Please complete the reCAPTCHA.')
-        return render_template('signup.html')  
+        return render_template('signup.html')
+
+@app.route('/admin/')
+def admin_page():
+    # Retrieve data from database tables
+    articles = Article.query.all()
+    offers = Offer.query.all()
+    users = User.query.all()
+    # Render the admin page template with the data
+    return render_template('admin.html', articles=articles, offers=offers, users=users)
 

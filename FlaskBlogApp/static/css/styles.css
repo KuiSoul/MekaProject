@@ -201,3 +201,43 @@ footer {
 	border: 1px solid blue;
 	border-radius: 10px;
 }
+
+.table {
+	width: 100%;
+	table-layout: fixed;
+	border: 1px solid black;
+}
+
+.table th,
+.table td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px solid black;
+}
+
+.table th {
+	font-size: 16px;
+	text-align: center;
+}
+
+.table td {
+	font-size: 14px;
+	text-align: center;
+}
+
+.table th#id-header,
+.table td#id-cell {
+	width: 80px;
+	/* Set a smaller width for the id column */
+}
+
+.table th#body-header,
+.table td#body-cell {
+	width: 250px;
+	/* Set a smaller width for the id column */
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
