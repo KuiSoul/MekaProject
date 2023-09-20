@@ -232,6 +232,12 @@ footer {
 	/* Set a smaller width for the id column */
 }
 
+.table th#delete-header,
+.table td#delete-cell {
+	width: 80px;
+	/* Set a smaller width for the id column */
+}
+
 .table th#body-header,
 .table td#body-cell {
 	width: 250px;

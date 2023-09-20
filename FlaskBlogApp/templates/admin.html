@@ -20,6 +20,7 @@ Admin
             <th>name</th>
             <th>surname</th>
             <th>recommender</th>
+            <th id="delete-header">delete</th>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +35,7 @@ Admin
             <td>{{ user.name }}</td>
             <td>{{ user.surname }}</td>
             <td>{{ user.recommender }}</td>
+            <td id="delete-cell">delete</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -49,7 +51,7 @@ Admin
             <th>article image</th>
             <th>date created</th>
             <th id="id-header">user id</th>
-            <th id="id-header">delet</th>
+            <th id="delete-header">delete</th>
         </tr>
     </thead>
     <tbody>
@@ -61,6 +63,7 @@ Admin
             <td>{{ article.article_image }}</td>
             <td>{{ article.date_created }}</td>
             <td id="id-cell">{{ article.user_id }}</td>
+            <td id="delete-cell">delete</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -75,10 +78,11 @@ Admin
             <th id="body-header">ad body</th>
             <th>date created</th>
             <th id="id-header">user id</th>
-            <th>offer image</th>
+            <th>ad image</th>
             <th>views count</th>
             <th>ad type</th>
             <th>ad location</th>
+            <th id="delete-header">delete</th>
         </tr>
     </thead>
     <tbody>
@@ -93,6 +97,7 @@ Admin
             <td>{{ offer.views_count }}</td>
             <td>{{ offer.offer_type }}</td>
             <td>{{ offer.offer_location }}</td>
+            <td id="delete-cell">delete</td>
         </tr>
         {% endfor %}
     </tbody>
