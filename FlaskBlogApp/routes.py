@@ -489,13 +489,13 @@ def article_delete(article_id):
     if article:
         db.session.delete(article)
         db.session.commit()
-        flash("Ο χρήστης έχει διαγραφεί.", "success")
+        flash("Το άρθρο διεγράφη με επιτυχία.", "success")
         articles = Article.query.all()
         offers = Offer.query.all()
         users = User.query.all()
         # Render the admin page template with the data
         return render_template('admin.html', articles=articles, offers=offers, users=users)
-    flash("Ο χρήστης δεν βρέθηκε.", "warning")
+    flash("Το άρθρο δε βρέθηκε.", "warning")
     return render_template('index.html')
 
 @app.route('/ad_delete/<int:offer_id>', methods= ["GET", "POST"])
@@ -506,11 +506,11 @@ def ad_delete(offer_id):
     if offer:
         db.session.delete(offer)
         db.session.commit()
-        flash("Ο χρήστης έχει διαγραφεί.", "success")
+        flash("H αγγελία διαγράφηκε.", "success")
         articles = Article.query.all()
         offers = Offer.query.all()
         users = User.query.all()
         # Render the admin page template with the data
         return render_template('admin.html', articles=articles, offers=offers, users=users)
-    flash("Ο χρήστης δεν βρέθηκε.", "warning")
+    flash("Η αγγελία δεν βρέθηκε.", "warning")
     return render_template('index.html')
