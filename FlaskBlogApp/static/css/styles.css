@@ -247,3 +247,11 @@ footer {
 tr:nth-child(even) {
 	background-color: #dddddd;
 }
+
+.nav-item {
+	padding: 0 20px;
+}
+
+.nav-item {
+	list-style: none;
+}

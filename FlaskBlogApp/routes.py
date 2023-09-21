@@ -31,10 +31,11 @@ app.secret_key = 'my_secrest_key'
 mail = Mail()
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
-app.config["MAIL_USE_SSL"] = True
-app.config["MAIL_USERNAME"] = 'contact@example.com'
-app.config["MAIL_PASSWORD"] = 'your-password'
-mail.init_app(app)
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config["MAIL_USERNAME"] = 'henrikv0912@gmail.com'
+app.config["MAIL_PASSWORD"] = 'PasswordDev0912'
+mail = Mail(app)
 
 app.config['SECRET_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
 app.config['RECAPTCHA_SECRET_KEY'] = '6LdXYSkoAAAAAIp8UpF4l6h7MjWpVR2wRE2PSn91'
@@ -67,6 +68,8 @@ class ContactForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     recaptcha = RecaptchaField()
 
+class OpinionForm(FlaskForm):
+    description = TextAreaField('Description', validators=[DataRequired()])
 
 
 from PIL import Image
@@ -110,6 +113,16 @@ def blog():
     page = request.args.get("page", 1, type=int)
     the_blog = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
     return render_template("blog.html", blog=the_blog)
+
+@app.route("/identify/")
+@login_required
+def identify():
+    return render_template("identify.html")
+
+@app.route("/divide/")
+@login_required
+def divide():
+    return render_template("divide.html")
 
 @app.route("/base/", methods=["GET", "POST"])
 @login_required
@@ -251,11 +264,11 @@ def new_offer():
 @app.route("/contact/", methods=["GET", "POST"])
 @login_required
 def contact():
+    
     form = ContactForm()
     g.app = app
-    
     if request.method == 'POST' and form.validate_on_submit():
-
+            
             option = request.form.get('option')
             description = form.description.data
             send_email(option, description)
@@ -279,9 +292,12 @@ def submitter_form():
         return render_template('contact.html')  
 
 def send_email(option, description):
-    msg = Message('New Contact Form Submission', sender='yourapp@example.com', recipients=['admin@example.com'])
+    # sender_email = '{{user.email}}'
+    # print(sender_email)
+    msg = Message('New Contact Form Submission', sender='henrikv0912@gmail.com', recipients=['kevinsoft108@gmail.com'])    
     msg.body = f"Option: {option}\n\nDescription: {description}"
     mail.send(msg)
+    return "Sent"
 
 @app.route("/article_title/<int:article_id>", methods=["GET"])
 def article_title(article_id):
@@ -308,10 +324,11 @@ def filtering():
 
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
 def full_offer(offer_id):
+    form = OpinionForm()    
     offer = Offer.query.get_or_404(offer_id)
     offer.views_count += 1
     db.session.commit()
-    return render_template("full_offer.html", offer=offer)
+    return render_template("full_offer.html", offer=offer, form=form)
 
 
 @app.route("/delete_article/<int:article_id>", methods=["GET", "POST"])
@@ -461,8 +478,8 @@ def admin_page():
     articles = Article.query.all()
     offers = Offer.query.all()
     users = User.query.all()
-    # Render the admin page template with the data
-    return render_template('admin.html', articles=articles, offers=offers, users=users)
+    msg = request.args.get('msg')
+    return render_template('admin.html', users=users, articles=articles, offers=offers, msg=msg)
 
 @app.route('/delete_user/<int:user_id>', methods= ["GET", "POST"])
 @login_required

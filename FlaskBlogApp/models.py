@@ -49,5 +49,16 @@ class Offer(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     views_count = db.Column(db.Integer, nullable=False, default=0)
 
+
+class Opinion(db.Model):
+    id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
+    sender = db.Column(db.String(150), unique=True, nullable=False)
+    recipient = db.Column(db.String(150), unique=True, nullable=False)
+    option = db.Column(db.Text(), nullable=False)
+    content = db.Column(db.Text(), nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    
+
+
     def __repr__(self):
         return f"{self.date_created}: {self.offer_title}"

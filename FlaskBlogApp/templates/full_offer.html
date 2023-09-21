@@ -57,9 +57,25 @@
       <a href="{{ url_for('full_offer', offer_id=offer.id-1) }}" style="color: red; font-size: 2em;">Επόμενο
         άρθρο</a>
       <br>
-      <br>
       <a href="{{ url_for('offers_by_author', author_id=offer.author.id) }}" style="color: red;font-size: 2em;">Διαβάστε
         περισσότερα από [{{offer.author.username }}]</a>
+      <form method="POST">
+        <div class="col-md-6 login-form-1">
+          <p style="color: red;font-size: 2em;">Αποστολή σχολίου</p>
+          {{ form.description(class="form-control", rows="5", required=True) }}
+
+          {% if form.description.errors %}
+          <ul class=errors>
+            {% for error in form.description.errors %}
+            <li class="alert text-danger">Παρακαλώ συμπληρώστε σωστά το reCaptcha</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        <div class="mb-3" style="border-radius: 30px;">
+          <button class="btn btn-primary" type="submit">ΑΠΟΣΤΟΛΗ ΜΗΝΥΜΑΤΟΣ</button>
+        </div>
+      </form>
     </div>
   </div>
   {% endif %}

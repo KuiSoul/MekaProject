@@ -7,6 +7,11 @@ Admin
 
 {% block content %}
 
+{% if msg %}
+<div class="alert alert-success" role="alert">
+    {{ msg }}
+</div>
+{% endif %}
 <h2>Users:</h2>
 <table class="table">
     <thead>
