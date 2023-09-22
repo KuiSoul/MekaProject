@@ -25,6 +25,7 @@ Admin
             <th>name</th>
             <th>surname</th>
             <th>recommender</th>
+            <th id="delete-header">edit</th>
             <th id="delete-header">delete</th>
         </tr>
     </thead>
@@ -40,6 +41,8 @@ Admin
             <td>{{ user.name }}</td>
             <td>{{ user.surname }}</td>
             <td>{{ user.recommender }}</td>
+            <td><button type="button" style="border: none; background-color: unset;"
+                    onclick="openEditModal({{user.id}})">Edit</button></td>
             <td id="delete-cell">
                 <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST">
                     <input type="submit" class="btn btn-danger" value="delete">
@@ -119,5 +122,130 @@ Admin
         {% endfor %}
     </tbody>
 </table>
+
+<!--Modal-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit User:</h5>
+                <button type="button" class="close" onclick="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="POST">
+                    <input type="hidden" name="id">
+                    <div class="form-group">
+                        <label>Name: </label>
+                        <div>
+                            <input class="form-control" type="text" name="name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>SurName: </label>
+                        <div>
+                            <input class="form-control" type="text" name="surname">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>UserName: </label>
+                        <div>
+                            <input class="form-control" type="text" name="username">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email: </label>
+                        <div>
+                            <input class="form-control" type="text" name="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Recommender: </label>
+                        <div>
+                            <input class="form-control" type="text" name="recommender">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Profile Image: </label>
+                        <div>
+                            <input class="form-control" type="text" name="profile_image">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contact UserName: </label>
+                        <div>
+                            <input class="form-control" type="text" name="contact_username">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitEdit()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditModal(id) {
+        $('#editModal').modal('show');
+        $.ajax({
+            url: "/get_user/" + id + "/",
+            type: 'get',
+            data: {
+                id: id
+            },
+            success: (user) => {
+                $('[name=id]').val(user.id);
+                $('[name=name]').val(user.name);
+                $('[name=surname]').val(user.surname);
+                $('[name=username]').val(user.username);
+                $('[name=email]').val(user.email);
+                $('[name=recommender]').val(user.recommender);
+                $('[name=profile_image]').val(user.profile_image);
+                $('[name=contact_username]').val(user.contact_username);
+            },
+            error: () => {
+                console.error('err');
+            }
+        })
+    }
+
+    function closeModal() {
+        $('#editModal').modal('hide');
+    }
+
+    function submitEdit() {
+        var data = {
+            name: $('[name=name]').val(),
+            surname: $('[name=surname]').val(),
+            username: $('[name=username]').val(),
+            email: $('[name=email]').val(),
+            recommender: $('[name=recommender]').val(),
+            contact_username: $('[name=contact_username]').val(),
+        }
+        $.ajax({
+            url: '/update_user/' + $('[name=id]').val(),
+            type: 'POST',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify(data),
+            success: (result) => {
+                console.log(result)
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        })
+    }
+</script>
 
 {% endblock content %}

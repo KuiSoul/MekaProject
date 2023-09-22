@@ -177,6 +177,10 @@ footer {
 	background-color: red !important;
 }
 
+.bbn {
+	background-color: blue !important;
+}
+
 .mb {
 	display: flex;
 	justify-content: center;

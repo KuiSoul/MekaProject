@@ -19,10 +19,22 @@ class User(db.Model, UserMixin):
     profile_image = db.Column(db.String(30), default='default_profile_image.jpg')
     contact_username = db.Column(db.String(15), unique=False, nullable=False)
     articles = db.relationship('Article', backref='author', lazy=True)
-    offers = db.relationship('Offer', backref='author', lazy=True)
+    offers = db.relationship('Offer', backref='author', lazy=True)    
 
     def __repr__(self):
         return f"{self.username}: {self.email}"
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'surname': self.surname,
+            'username': self.username,
+            'email': self.email,
+            'recommender': self.recommender,
+            'profile_image': self.profile_image,
+            'contact_username': self.contact_username
+        }
 
 
 class Article(db.Model):

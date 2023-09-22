@@ -121,6 +121,20 @@
                     {% endif %}
                 </div>
 
+                <div class="mb-3" style="display: flex;">
+                    {{ form.agree(class="form-check-input", required=false) }}
+                    <label class="form-check-label" for="{{ form.agree.id }}">Συμφωνώ με τον <a href="/divide/"
+                            style="color: black;">Κανονισμό
+                            Λειτουργίας</a> και τους <a href="/divide/" style="color: black;">Όρους
+                            Χρήσης</a> του MEKAREVRSE</label>
+                </div>
+                {% if form.agree.errors %}
+                {% for error in form.agree.errors %}
+                <div class="alert text-danger">{{ error }}</div>
+                {% endfor %}
+                {% endif %}
+
+
                 <div class="mb-3">
                     <p>reCAPTCHA</p>
                     <div data-sitekey="{{ g.app.config['6LcaiCkoAAAAANAQHGIAIsQaLiOahl6py3__NWZU'] }}"

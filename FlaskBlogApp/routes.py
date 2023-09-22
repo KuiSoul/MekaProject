@@ -1,5 +1,7 @@
 import os
 import secrets
+import json
+from django.http import HttpResponse
 
 from flask import (render_template,
                    redirect,
@@ -50,6 +52,7 @@ class SignupForm(FlaskForm):
     recommender = StringField('Διεύθυνση email σου', validators=[DataRequired(), Email()])
     password = PasswordField('Password (συμπεριλαμβάνει συνδιασμό πεζών – κεφαλαίων – αριθμών και ειδικών χαρακτήρων – τουλάχιστον 3 από τα 4 )', validators=[DataRequired()])
     password2 = PasswordField('Επιβεβαίωση Password', validators=[DataRequired(), EqualTo('password')])
+    agree = BooleanField('Συμφωνώ με τον Κανονισμό Λειτουργίας και τους Όρους Χρήσης του MEKAREVRSE', validators=[DataRequired(message='Please check the checkbox')])
     recaptcha = RecaptchaField()
     submit = SubmitField('ΟΛΟΚΛΗΡΩΣΗ ΕΓΓΡΑΦΗΣ')
 
@@ -120,7 +123,6 @@ def identify():
     return render_template("identify.html")
 
 @app.route("/divide/")
-@login_required
 def divide():
     return render_template("divide.html")
 
@@ -167,7 +169,7 @@ def signup():
         recommender = form.recommender.data
         password = form.password.data
         password2 = form.password2.data
-        
+        agree = form.checkbox.data
 
         encrypted_password = bcrypt.generate_password_hash(password).decode('UTF-8')
 
@@ -438,6 +440,24 @@ def edit_offer(offer_id):
 
 import requests
 
+@app.route('/update_user/<int:id>', methods=['POST'])
+@login_required
+def update_user(id):
+    user = User.query.get(id)
+    if user is None:
+        return jsonify({'error': 'MyModel not found'}), 404
+    if request.method == 'POST':
+        user.name = request.json['name']
+        user.surname = request.json["surname"]
+        user.username = request.json["username"]
+        user.email = request.json["email"]
+        user.recommender = request.json["recommender"]
+        user.contact_username = request.json["contact_username"]
+        db.session.commit()
+        return jsonify({'success': 'User was successfully updated!'})
+    return jsonify({'erro': 'User update failed!'})
+
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -481,10 +501,17 @@ def admin_page():
     msg = request.args.get('msg')
     return render_template('admin.html', users=users, articles=articles, offers=offers, msg=msg)
 
+@app.route('/get_user/<int:id>/')
+def get_user(id):
+    user = User.query.get(id)
+    if user is None:
+        return jsonify({'error': 'MyModel not found'}), 404
+    return jsonify(user.to_dict())
+
 @app.route('/delete_user/<int:user_id>', methods= ["GET", "POST"])
 @login_required
 def delete_user(user_id):
-    user = User.query.filter_by(id = user_id).first_or_404()
+    user = User.query.filter_by(id = user_id).get()
     
     if user:
         db.session.delete(user)

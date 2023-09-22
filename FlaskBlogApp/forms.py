@@ -52,6 +52,7 @@ class SignupForm(FlaskForm):
                                                 message="Αυτό το πεδίο πρέπει να είναι από 3 έως 15 χαρακτήρες" ),
                                          EqualTo('password',
                                                  message='Τα δύο πεδία password πρέπει να είναι τα ίδια')])
+    agree = BooleanField(label="agree", validators=[DataRequired(message='Please check the checkbox')])
     
     submit = SubmitField('Εγγραφή')
 
