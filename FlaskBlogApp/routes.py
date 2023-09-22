@@ -1,7 +1,5 @@
 import os
 import secrets
-import json
-from django.http import HttpResponse
 
 from flask import (render_template,
                    redirect,
