@@ -24,12 +24,9 @@
         <li class="nav-item">
           <a class="navbar-brand" href="/contact/">ΕΠΙΚΟΙΝΩΝΙΑ</a>
         </li>
-
-
-
       </ul>
-
     </div>
+
     <div style="display: flex;justify-content: center;align-items: center;">
 
       <div style="display: flex;justify-content: center;align-items: center;font-size: 1rem; font-weight: 500;">
@@ -42,7 +39,6 @@
         {% if current_user.is_authenticated %}
 
         <li class="nav-item dropdown">
-
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             <img class="rounded-circle navbar-profile-image" style="width: 30px; height: 30px;"
@@ -59,7 +55,6 @@
               <a class="dropdown-item" href="/logout/">Έξοδος</a>
             </li>
           </ul>
-
         </li>
         {% else %}
         <li class="nav-item">

@@ -109,7 +109,6 @@ def root():
 
 
 @app.route("/blog/")
-@login_required
 def blog():
     page = request.args.get("page", 1, type=int)
     the_blog = Article.query.order_by(Article.date_created.desc()).paginate(per_page=6, page=page)
@@ -455,6 +454,36 @@ def update_user(id):
         return jsonify({'success': 'User was successfully updated!'})
     return jsonify({'erro': 'User update failed!'})
 
+@app.route('/update_article/<int:id>', methods=['POST'])
+@login_required
+def update_article(id):
+    article = Article.query.get(id)
+    if article is None:
+        return jsonify({'error': 'MyModel not found'}), 404
+    if request.method == 'POST':
+        article.article_title = request.json["article_title"]
+        article.article_body = request.json["article_body"]
+        db.session.commit()
+        return jsonify({'success': 'Article was successfully updated!'})
+    return jsonify({'erro': 'Article update failed!'})
+
+@app.route('/update_offer/<int:id>', methods=['POST'])
+@login_required
+def update_offer(id):
+    offer = Offer.query.get(id)
+    if offer is None:
+        return jsonify({'error': 'MyModel not found'}), 404
+    if request.method == 'POST':
+        offer.offer_title = request.json["offer_title"]
+        offer.offer_body = request.json["offer_body"]
+        offer.offer_type = request.json["offer_type"]
+        offer.offer_location = request.json["offer_location"]
+        db.session.commit()
+        return jsonify({'success': 'Offer was successfully updated!'})
+    return jsonify({'erro': 'Offer update failed!'})
+
+
+
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -505,6 +534,22 @@ def get_user(id):
     if user is None:
         return jsonify({'error': 'MyModel not found'}), 404
     return jsonify(user.to_dict())
+
+@app.route('/get_article/<int:id>/')
+def get_article(id):
+    article = Article.query.get(id)
+    print(article)
+    if article is None:
+        return jsonify({'error': 'MyModel not found'}), 404
+    return jsonify(article.to_dict())
+
+@app.route('/get_offer/<int:id>/')
+def get_offer(id):   
+    offer = Offer.query.get(id)
+    print(offer)
+    if offer is None:
+        return jsonify({'error': 'MyModel not found'}), 404
+    return jsonify(offer.to_dict())
 
 @app.route('/delete_user/<int:user_id>', methods= ["GET", "POST"])
 @login_required

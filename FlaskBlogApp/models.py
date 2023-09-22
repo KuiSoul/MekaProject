@@ -48,6 +48,13 @@ class Article(db.Model):
 
     def __repr__(self):
         return f"{self.date_created}: {self.article_title}"
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'article_title': self.article_title,
+            'article_body': self.article_body,
+            'article_image': self.article_image
+        }
 
 
 class Offer(db.Model):
@@ -60,6 +67,16 @@ class Offer(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     views_count = db.Column(db.Integer, nullable=False, default=0)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'offer_title': self.offer_title,
+            'offer_type': self.offer_type,
+            'offer_location': self.offer_location,
+            'offer_body': self.offer_body,
+            'offer_image': self.offer_image
+        }
 
 
 class Opinion(db.Model):

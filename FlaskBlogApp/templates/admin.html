@@ -63,6 +63,7 @@ Admin
             <th>article image</th>
             <th>date created</th>
             <th id="id-header">user id</th>
+            <th id="delete-header">edit</th>
             <th id="delete-header">delete</th>
         </tr>
     </thead>
@@ -75,6 +76,8 @@ Admin
             <td>{{ article.article_image }}</td>
             <td>{{ article.date_created }}</td>
             <td id="id-cell">{{ article.user_id }}</td>
+            <td><button type="button" style="border: none; background-color: unset;"
+                    onclick="openEditModal1({{article.id}})">Edit</button></td>
             <td id="delete-cell">
                 <form action="{{ url_for('article_delete', article_id=article.id) }}" method="POST">
                     <input type="submit" class="btn btn-danger" value="delete">
@@ -98,6 +101,7 @@ Admin
             <th>views count</th>
             <th>ad type</th>
             <th>ad location</th>
+            <th id="delete-header">edit</th>
             <th id="delete-header">delete</th>
         </tr>
     </thead>
@@ -113,6 +117,8 @@ Admin
             <td>{{ offer.views_count }}</td>
             <td>{{ offer.offer_type }}</td>
             <td>{{ offer.offer_location }}</td>
+            <td><button type="button" style="border: none; background-color: unset;"
+                    onclick="openEditModal2({{offer.id}})">Edit</button></td>
             <td id="delete-cell">
                 <form action="{{ url_for('ad_delete', offer_id=offer.id) }}" method="POST">
                     <input type="submit" class="btn btn-danger" value="delete">
@@ -239,7 +245,8 @@ Admin
             contentType: 'application/json;charset=UTF-8',
             data: JSON.stringify(data),
             success: (result) => {
-                console.log(result)
+                console.log(result);
+                $('#editModal').modal('hide');
             },
             error: (err) => {
                 console.log(err)
@@ -248,4 +255,179 @@ Admin
     }
 </script>
 
-{% endblock content %}
+<div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Article:</h5>
+                <button type="button" class="close" onclick="closeModal1()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="POST">
+                    <input type="hidden" name="id">
+                    <div class="form-group">
+                        <label>Article Title: </label>
+                        <div>
+                            <input class="form-control" type="text" name="article_title">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Article Body: </label>
+                        <div>
+                            <input class="form-control" type="text" name="article_body">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal1()">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="submitEdit1()">Save changes</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditModal1(id) {
+        $('#editModal1').modal('show');
+        $.ajax({
+            url: "/get_article/" + id + "/",
+            type: 'get',
+            data: {
+                id: id
+            },
+            success: (article) => {
+                $('[name=id]').val(article.id);
+                $('[name=article_title]').val(article.article_title);
+                $('[name=article_body]').val(article.article_body);
+            },
+            error: () => {
+                console.error('err');
+            }
+        })
+    }
+
+    function closeModal1() {
+        $('#editModal1').modal('hide');
+    }
+
+    function submitEdit1() {
+        var data = {
+            article_title: $('[name=article_title]').val(),
+            article_body: $('[name=article_body]').val(),
+        }
+        $.ajax({
+            url: '/update_article/' + $('[name=id]').val(),
+            type: 'POST',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify(data),
+            success: (result) => {
+                console.log(result);
+                $('#editModal1').modal('hide');
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        })
+    }
+</script>
+
+<div class="modal fade" id="editModal2" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Offer:</h5>
+                <button type="button" class="close" onclick="closeModal2()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" method="POST">
+                    <input type="hidden" name="id">
+                    <div class="form-group">
+                        <label>Offer Title: </label>
+                        <div>
+                            <input class="form-control" type="text" name="offer_title">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Offer Body: </label>
+                        <div>
+                            <input class="form-control" type="text" name="offer_body">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Offer Type: </label>
+                        <div>
+                            <input class="form-control" type="text" name="offer_type">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Offer Location: </label>
+                        <div>
+                            <input class="form-control" type="text" name="offer_location">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal2()">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="submitEdit2()">Save changes</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEditModal2(id) {
+            $('#editModal2').modal('show');
+            $.ajax({
+                url: "/get_offer/" + id + "/",
+                type: 'get',
+                data: {
+                    id: id
+                },
+                success: (offer) => {
+                    $('[name=id]').val(offer.id);
+                    $('[name=offer_title]').val(offer.offer_title);
+                    $('[name=offer_body]').val(offer.offer_body);
+                    $('[name=offer_type]').val(offer.offer_type);
+                    $('[name=offer_location]').val(offer.offer_location);
+                },
+                error: () => {
+                    console.error('err');
+                }
+            })
+        }
+
+        function closeModal2() {
+            $('#editModal2').modal('hide');
+        }
+
+        function submitEdit2() {
+            var data = {
+                offer_title: $('[name=offer_title]').val(),
+                offer_body: $('[name=offer_body]').val(),
+                offer_type: $('[name=offer_type]').val(),
+                offer_location: $('[name=offer_location]').val(),
+            }
+            $.ajax({
+                url: '/update_offer/' + $('[name=id]').val(),
+                type: 'POST',
+                contentType: 'application/json;charset=UTF-8',
+                data: JSON.stringify(data),
+                success: (result) => {
+                    console.log(result);
+                    $('#editModal2').modal('hide');
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+    </script>
+
+    {% endblock content %}
