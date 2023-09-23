@@ -313,7 +313,6 @@ def filtering():
     filters = request.args.get('filters')
     data = Offer.query.filter(Offer.offer_body.contains(filters) | Offer.offer_title.contains(filters)).paginate(per_page=6, page=page)
     return render_template("filtering.html", offers=data)
-    
 
 
 @app.route("/full_offer/<int:offer_id>", methods=["GET"])
