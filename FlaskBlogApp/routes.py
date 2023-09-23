@@ -129,6 +129,8 @@ def offers():
     if request.method == "POST":
         # Perform filtering
         filters = request.form.get("filters")  # Replace "filter_value" with the name of your filter input
+        if (filters == None):
+            filters = ''
         query = Offer.query.filter(Offer.offer_body.contains(filters) | Offer.offer_title.contains(filters))  # Replace "filter_column" with the applicable column name in your Offer model
     else:
         # Display all data
@@ -262,15 +264,12 @@ def new_offer():
 
 @app.route("/contact/", methods=["GET", "POST"])
 def contact():
-    
     form = ContactForm()
     g.app = app
     if request.method == 'POST' and form.validate_on_submit():
-            
             option = request.form.get('option')
             description = form.description.data
             send_email(option, description)
-    
     return render_template("contact.html", form=form, page_title="Καταχώριση Νέας Αγγελίας")
 
 def submitter_form():
@@ -281,17 +280,13 @@ def submitter_form():
     data = response.json()
 
     if data['success']:
-        
         flash('Form submitted successfully!')
         return render_template('index.html')  
-       
     else:
         flash('Please complete the reCAPTCHA.')
         return render_template('contact.html')  
 
 def send_email(option, description):
-    # sender_email = '{{user.email}}'
-    # print(sender_email)
     msg = Message('New Contact Form Submission', sender='henrikv0912@gmail.com', recipients=['ntheofanidis@gmail.com'])    
     msg.body = f"Option: {option}\n\nDescription: {description}"
     mail.send(msg)
