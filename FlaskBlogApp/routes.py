@@ -129,8 +129,8 @@ def offers():
     if request.method == "POST":
         # Perform filtering
         filters = request.form.get("filters")  # Replace "filter_value" with the name of your filter input
-        if (filters == None):
-            return render_template("base.html", offers=the_base)
+        # if (filters == None):
+        #     filters = ''
         query = Offer.query.filter(Offer.offer_body.contains(filters) | Offer.offer_title.contains(filters))  # Replace "filter_column" with the applicable column name in your Offer model
     else:
         # Display all data
