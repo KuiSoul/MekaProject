@@ -295,7 +295,7 @@ def submitter_form():
         return render_template('contact.html')  
 
 def send_email(option, email, description):
-    msg = Message('New Contact Form Submission', sender=email, recipients=['henrikv0912@gail.com'])    
+    msg = Message('New Contact Form Submission', sender=email, recipients=['ntheofanidis@gmail.com'])    
     msg.body = f"Option: {option}\n\nDescription: {description}"
     mail.send(msg)
     print(msg)
