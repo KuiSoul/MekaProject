@@ -30,11 +30,11 @@ app.secret_key = 'my_secrest_key'
 
 mail = Mail()
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
-app.config["MAIL_PORT"] = 465
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+app.config["MAIL_PORT"] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 app.config["MAIL_USERNAME"] = 'henrikv0912@gmail.com'
-app.config["MAIL_PASSWORD"] = 'PasswordDev0912'
+app.config["MAIL_PASSWORD"] = 'duxe drip zdwx geht'
 mail = Mail(app)
 
 app.config['SECRET_KEY'] = '6LcaiCkoAAAAABfNNvoBoUHOHDDlZPbYuw0MaLtk'
@@ -261,7 +261,6 @@ def new_offer():
 
 
 @app.route("/contact/", methods=["GET", "POST"])
-@login_required
 def contact():
     
     form = ContactForm()
@@ -293,9 +292,10 @@ def submitter_form():
 def send_email(option, description):
     # sender_email = '{{user.email}}'
     # print(sender_email)
-    msg = Message('New Contact Form Submission', sender='henrikv0912@gmail.com', recipients=['kevinsoft108@gmail.com'])    
+    msg = Message('New Contact Form Submission', sender='henrikv0912@gmail.com', recipients=['ntheofanidis@gmail.com'])    
     msg.body = f"Option: {option}\n\nDescription: {description}"
     mail.send(msg)
+    print(msg)
     return "Sent"
 
 @app.route("/article_title/<int:article_id>", methods=["GET"])
