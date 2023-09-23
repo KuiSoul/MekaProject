@@ -65,7 +65,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField()    
 
 class ContactForm(FlaskForm):
-    option = StringField('Option')
+    option = StringField('Option', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     description = TextAreaField('Description', validators=[DataRequired()])
     recaptcha = RecaptchaField()
 
@@ -127,10 +128,17 @@ def divide():
 @login_required
 def offers():
     if request.method == "POST":
-        filters = request.form.get("filters")  # Replace "filter_value" with the name of your filter input
-        if (filters == None):
-            filters = ''
-        query = Offer.query.filter(Offer.offer_body.contains(filters) | Offer.offer_title.contains(filters))  # Replace "filter_column" with the applicable column name in your Offer model
+        filters1 = request.form.get("filters1")  # Replace "filter_value" with the name of your filter1 input
+        filters2 = request.form.get("filters2")  # Replace "filter_value" with the name of your filter2 input
+        filters3 = request.form.get("filters3")  # Replace "filter_value" with the name of your filter3 input
+        if (filters1 == None):
+            filters1 = ''
+        if (filters2 == None):
+            filters2 = ''
+        if (filters3 == None):
+            filters3 = ''
+        print(filters1)
+        query = Offer.query.filter(Offer.offer_title.contains(filters1), Offer.offer_location.contains(filters2))  # Replace "filter_column" with the applicable column name in your Offer model
     else:
         # Display all data
         query = Offer.query
@@ -267,8 +275,9 @@ def contact():
     g.app = app
     if request.method == 'POST' and form.validate_on_submit():
             option = request.form.get('option')
+            email = form.email.data
             description = form.description.data
-            send_email(option, description)
+            send_email(option, email, description)
     return render_template("contact.html", form=form, page_title="Καταχώριση Νέας Αγγελίας")
 
 def submitter_form():
@@ -285,11 +294,12 @@ def submitter_form():
         flash('Please complete the reCAPTCHA.')
         return render_template('contact.html')  
 
-def send_email(option, description):
-    msg = Message('New Contact Form Submission', sender='henrikv0912@gmail.com', recipients=['ntheofanidis@gmail.com'])    
+def send_email(option, email, description):
+    msg = Message('New Contact Form Submission', sender=email, recipients=['henrikv0912@gail.com'])    
     msg.body = f"Option: {option}\n\nDescription: {description}"
     mail.send(msg)
     print(msg)
+    flash("Η ειδοποίηση στάλθηκε με επιτυχία.", "success")
     return "Sent"
 
 @app.route("/article_title/<int:article_id>", methods=["GET"])

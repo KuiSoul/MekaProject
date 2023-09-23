@@ -78,16 +78,5 @@ class Offer(db.Model):
             'offer_image': self.offer_image
         }
 
-
-class Opinion(db.Model):
-    id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
-    sender = db.Column(db.String(150), unique=True, nullable=False)
-    recipient = db.Column(db.String(150), unique=True, nullable=False)
-    option = db.Column(db.Text(), nullable=False)
-    content = db.Column(db.Text(), nullable=False)
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    
-
-
     def __repr__(self):
         return f"{self.date_created}: {self.offer_title}"
