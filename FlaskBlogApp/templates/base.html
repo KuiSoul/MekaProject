@@ -18,33 +18,34 @@ Base
           <input type="checkbox" name="filters1" value="aa" {% if 'aa' in request.form.getlist('filters1') %}checked{%
             endif %}>
           <label for="filters">στα</label><br>
-          <input type="checkbox" name="filters1" value="Το χρειάζομαι" {% if 'Το_χρειάζομαι' in
-            request.form.getlist('filters1') %}checked{% endif %}>
+          <input type="checkbox" name="filters1" value="bb" {% if 'bb' in request.form.getlist('filters1') %}checked{%
+            endif %}>
           <label for="filters">Το χρειάζομαι</label><br>
-          <input type="checkbox" name="filters1" value="The Collectives είναι εξαιρετικές" {%
-            if 'The_Collectives_είναι_εξαιρετικές' in request.form.getlist('filters1') %}checked{% endif %}>
+          <input type="checkbox" name="filters1" value="cc" {% if 'cc' in request.form.getlist('filters1') %}checked{%
+            endif %}>
           <label for="filters">The Collectives είναι εξαιρετικές</label>
         </div>
         <div class="col-sm-4">ΤΟΠΟΘΕΣΙΑ<br>
-          <input type="checkbox" name="filters2" value="bb" {% if 'bb' in request.form.getlist('filters2') %}checked{%
+          <input type="checkbox" name="filters2" value="qq" {% if 'qq' in request.form.getlist('filters2') %}checked{%
             endif %}>
           <label for="filters">περιοχη</label><br>
-          <input type="checkbox" name="filters2" value="Περιοχή(Επίπεδο 2)" {% if 'Περιοχή(Επίπεδο_2)' in
-            request.form.getlist('filters2') %}checked{% endif %}>
+          <input type="checkbox" name="filters2" value="aa" {% if 'aa' in request.form.getlist('filters2') %}checked{%
+            endif %}>
           <label for="filters">Περιοχή(Επίπεδο 2)</label><br>
-          <input type="checkbox" name="filters2" value="Απόσταση(χιλιόμετρα)" {% if 'Απόσταση(χιλιόμετρα)' in
-            request.form.getlist('filters2') %}checked{% endif %}>
+          <input type="checkbox" name="filters2" value="zz" {% if 'zz' in request.form.getlist('filters2') %}checked{%
+            endif %}>
           <label for="filters">Απόσταση(χιλιόμετρα)</label>
         </div>
         <div class="col-sm-4">ΧΡΟΝΟΣ<br>
-          <input type="checkbox" name="filters3" value="Επικοινωνία" {% if 'Επικοινωνία' in
-            request.form.getlist('filters3') %}checked{% endif %}>
-          <label for="filters"> Επικοινωνία </label><br>
-          <input type="checkbox" name="filters3" value="7 ημέρεςr" {% if '7_ημέρες' in request.form.getlist('filters3')
-            %}checked{% endif %}>
+          <input type="checkbox" name="filters3" value="1" {% if '1' in request.form.getlist('filters3') %}checked{%
+            endif %}>
+          <label for="filters"> 24 ώρες (last 24 hours)
+          </label><br>
+          <input type="checkbox" name="filters3" value="7" {% if '7' in request.form.getlist('filters3') %}checked{%
+            endif %}>
           <label for="filters"> 7 ημέρες </label><br>
-          <input type="checkbox" name="filters3" value="1 μήνας" {% if '1_μήνας' in request.form.getlist('filters3')
-            %}checked{% endif %}>
+          <input type="checkbox" name="filters3" value="30" {% if '30' in request.form.getlist('filters3') %}checked{%
+            endif %}>
           <label for="filters"> 1 μήνας </label>
         </div>
       </form>

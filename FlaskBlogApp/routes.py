@@ -15,7 +15,7 @@ from FlaskBlogApp import app, db, bcrypt
 from FlaskBlogApp.models import User, Article, Offer
 from sqlalchemy import literal
 from flask import g
-
+from datetime import datetime, timedelta
 
 
 
@@ -137,8 +137,18 @@ def offers():
             filters2 = ''
         if (filters3 == None):
             filters3 = ''
-        print(filters1)
-        query = Offer.query.filter(Offer.offer_title.contains(filters1), Offer.offer_location.contains(filters2))  # Replace "filter_column" with the applicable column name in your Offer model
+        query = Offer.query.filter(Offer.offer_type.contains(filters1), Offer.offer_location.contains(filters2))  # Replace "filter_column" with the applicable column name in your Offer model
+
+        # Filter by created date
+        if filters3 == '1':
+            yesterday = datetime.now() - timedelta(days=1)
+            query = query.filter(Offer.date_created >= yesterday)
+        elif filters3 == '7':
+            last_week = datetime.now() - timedelta(days=7)
+            query = query.filter(Offer.date_created >= last_week)
+        elif filters3 == '30':
+            last_month = datetime.now() - timedelta(days=30)
+            query = query.filter(Offer.date_created >= last_month)
     else:
         # Display all data
         query = Offer.query
@@ -180,7 +190,6 @@ def signup():
         encrypted_password = bcrypt.generate_password_hash(password).decode('UTF-8')
 
         user = User(username=username, name=name, surname=surname, email=email, password=encrypted_password, recommender=recommender, contact_username="")
-        print(user)
         db.session.add(user)
         db.session.commit()
 
@@ -298,7 +307,6 @@ def send_email(option, email, description):
     msg = Message('New Contact Form Submission', sender=email, recipients=['ntheofanidis@gmail.com'])    
     msg.body = f"Option: {option}\n\nDescription: {description}"
     mail.send(msg)
-    print(msg)
     flash("Η ειδοποίηση στάλθηκε με επιτυχία.", "success")
     return "Sent"
 
@@ -541,7 +549,6 @@ def get_user(id):
 @app.route('/get_article/<int:id>/')
 def get_article(id):
     article = Article.query.get(id)
-    print(article)
     if article is None:
         return jsonify({'error': 'MyModel not found'}), 404
     return jsonify(article.to_dict())
@@ -549,7 +556,6 @@ def get_article(id):
 @app.route('/get_offer/<int:id>/')
 def get_offer(id):   
     offer = Offer.query.get(id)
-    print(offer)
     if offer is None:
         return jsonify({'error': 'MyModel not found'}), 404
     return jsonify(offer.to_dict())

@@ -177,9 +177,6 @@ footer {
 	background-color: red !important;
 }
 
-.bbn {
-	background-color: blue !important;
-}
 
 .mb {
 	display: flex;
@@ -258,4 +255,10 @@ tr:nth-child(even) {
 
 .nav-item {
 	list-style: none;
+}
+
+@media (max-width: 1400px) {
+	.logo {
+		display: none !important;
+	}
 }
