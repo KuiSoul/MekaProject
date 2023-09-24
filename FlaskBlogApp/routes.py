@@ -304,8 +304,8 @@ def submitter_form():
         return render_template('contact.html')  
 
 def send_email(option, email, description):
-    msg = Message('New Contact Form Submission', sender=email, recipients=['henrikv0912@gmail.com'])    
-    msg.body = f"Sender: {email}\n Option: {option}\n\nDescription: {description}"
+    msg = Message('New Contact Form Submission', recipients=['henrikv0912@gmail.com'])    
+    msg.body = f"Sender:Option: {option}\n\nDescription: {description}"
     mail.send(msg)
     flash("Η ειδοποίηση στάλθηκε με επιτυχία.", "success")
     return "Sent"
