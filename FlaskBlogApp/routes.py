@@ -304,8 +304,8 @@ def submitter_form():
         return render_template('contact.html')  
 
 def send_email(option, email, description):
-    msg = Message('New Contact Form Submission', sender=email, recipients=['ntheofanidis@gmail.com'])    
-    msg.body = f"Option: {option}\n\nDescription: {description}"
+    msg = Message('New Contact Form Submission', sender=email, recipients=['henrikv0912@gmail.com'])    
+    msg.body = f"Sender: {email}\n Option: {option}\n\nDescription: {description}"
     mail.send(msg)
     flash("Η ειδοποίηση στάλθηκε με επιτυχία.", "success")
     return "Sent"
@@ -332,13 +332,26 @@ def filtering():
     return render_template("filtering.html", offers=data)
 
 
-@app.route("/full_offer/<int:offer_id>", methods=["GET"])
+@app.route("/full_offer/<int:offer_id>", methods=["GET", "POST"])
 def full_offer(offer_id):
-    form = OpinionForm()    
+    form = OpinionForm()
+    if request.method == 'POST':
+        semail = current_user.email
+        remail = request.form.get("author_email")
+        description = form.description.data
+        send_email(semail, remail, description)
+        print(send_email)
     offer = Offer.query.get_or_404(offer_id)
     offer.views_count += 1
     db.session.commit()
     return render_template("full_offer.html", offer=offer, form=form)
+
+def send_email(semail, remail, description):
+    msg = Message('New Opinion Form Submission', sender=semail, recipients=remail)    
+    msg.body = f"Opinion: {description}"
+    mail.send(msg)
+    flash("Η ειδοποίηση στάλθηκε με επιτυχία.", "success")
+    return "Sent"
 
 
 @app.route("/delete_article/<int:article_id>", methods=["GET", "POST"])

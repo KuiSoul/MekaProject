@@ -64,6 +64,8 @@
           <p style="color: red;font-size: 2em;">Αποστολή σχολίου</p>
           {{ form.description(class="form-control", rows="5", required=True) }}
 
+          <input type="hidden" name="author_email" value="{{offer.author.email}}">
+
           {% if form.description.errors %}
           <ul class=errors>
             {% for error in form.description.errors %}
