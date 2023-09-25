@@ -16,10 +16,10 @@
 
       <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-
+        {{ ckeditor.load() }}
         <div class="mb-3">
           {{ form.offer_title.label(class="form-label") }}
-          {{ form.offer_title(class="form-control", required=False) }}
+          {{ ckeditor.create(name="offer_title") }}
           <div id="offer_titleHelp" class="form-text">Προσδιορίστε το θέμα της προσφοράς.</div>
           {% if form.offer_title.errors %}
           <ul class=errors>
@@ -32,7 +32,7 @@
 
         <div class="mb-3">
           {{ form.offer_type.label(class="form-label") }}
-          {{ form.offer_type(class="form-control", required=False) }}
+          {{ ckeditor.create(name="offer_type") }}
           <div id="offer_typeHelp" class="form-text">Προσδιορίστε το είδος της προσφοράς.</div>
           {% if form.offer_type.errors %}
           <ul class=errors>
@@ -45,7 +45,7 @@
 
         <div class="mb-3">
           {{ form.offer_location.label(class="form-label") }}
-          {{ form.offer_location(class="form-control", required=False) }}
+          {{ ckeditor.create(name="offer_location") }}
           <div id="offer_locationHelp" class="form-text">Καθορίστε την τοποθεσία της προσφοράς.</div>
           {% if form.offer_title.errors %}
           <ul class=errors>
@@ -58,7 +58,7 @@
 
         <div class="mb-3">
           {{ form.offer_body.label(class="form-label") }}
-          {{ form.offer_body(class="form-control", rows="5", required=False) }}
+          {{ ckeditor.create(name="offer_body") }}
           <div id="offer_bodyHelp" class="form-text">Παρακαλώ περιγράψτε τί ζητάτε ή τί προσφέρετε με ακρίβεια και
             σαφήνεια.</div>
           {% if form.offer_body.errors %}
@@ -72,7 +72,7 @@
 
         <div class="mb-3">
           {{ form.offer_image.label(class="form-label") }}
-          {{ form.offer_image(class="form-control") }}
+          {{ ckeditor.create(name="offer_image") }}
           <div id="offer_imageHelp" class="form-text">Δώστε μια εικόνα για το άρθρο σας.</div>
           {% if form.offer_image.errors %}
           <ul class=errors>

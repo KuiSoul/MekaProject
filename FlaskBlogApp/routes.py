@@ -26,6 +26,11 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 from flask_mail import Mail, Message
 from flask import current_app
+from flask_ckeditor import CKEditor
+
+app.config['CKEDITOR_SERVE_LOCAL'] = True
+app.config['CKEDITOR_HEIGHT'] = 400
+ckeditor = CKEditor(app)
 app.secret_key = 'my_secrest_key'
 
 mail = Mail()
@@ -106,7 +111,7 @@ def image_save(image, where, size):
 @app.route("/index/")
 @app.route("/")
 def root():
-    return render_template("index.html")
+    return render_template("index.html", ckeditor=ckeditor)
 
 
 @app.route("/blog/")

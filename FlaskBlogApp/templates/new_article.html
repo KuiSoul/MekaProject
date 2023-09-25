@@ -17,9 +17,11 @@
       <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
 
+        {{ ckeditor.load() }}
+
         <div class="mb-3">
           {{ form.article_title.label(class="form-label") }}
-          {{ form.article_title(class="form-control", required=False) }}
+          {{ ckeditor.create(name="article_title") }}
           <div id="article_titleHelp" class="form-text">Παρακαλώ εισάγετε τον τίτλο του άρθρου.</div>
           {% if form.article_title.errors %}
           <ul class=errors>
@@ -33,7 +35,7 @@
 
         <div class="mb-3">
           {{ form.article_body.label(class="form-label") }}
-          {{ form.article_body(class="form-control", rows="5", required=False) }}
+          {{ ckeditor.create(name="article_body") }}
           <div id="article_bodyHelp" class="form-text">Παρακαλώ εισάγετε το πλήρες κείμενο του άρθρου.</div>
           {% if form.article_body.errors %}
           <ul class=errors>
@@ -47,7 +49,7 @@
 
         <div class="mb-3">
           {{ form.article_image.label(class="form-label") }}
-          {{ form.article_image(class="form-control") }}
+          {{ ckeditor.create(name="article_image") }}
           <div id="article_imageHelp" class="form-text">Παρακαλώ δώστε μία εικόνα για το άρθρο σας.</div>
           {% if form.article_image.errors %}
           <ul class=errors>
@@ -67,11 +69,4 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
 {% endblock content %}
