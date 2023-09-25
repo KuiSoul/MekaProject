@@ -19,41 +19,42 @@
         {{ ckeditor.load() }}
         <div class="mb-3">
           {{ form.offer_title.label(class="form-label") }}
-          {{ ckeditor.create(name="offer_title") }}
+          {{ form.offer_title(class="form-control", required=False) }}
           <div id="offer_titleHelp" class="form-text">Προσδιορίστε το θέμα της προσφοράς.</div>
-          {% if form.offer_title.errors %}
+
+          <!-- {% if form.offer_title.errors %}
           <ul class=errors>
             {% for error in form.offer_title.errors %}
             <li class="alert text-danger">{{ error }}</li>
             {% endfor %}
           </ul>
-          {% endif %}
+          {% endif %} -->
         </div>
 
         <div class="mb-3">
           {{ form.offer_type.label(class="form-label") }}
-          {{ ckeditor.create(name="offer_type") }}
+          {{ form.offer_type(class="form-control", required=False) }}
           <div id="offer_typeHelp" class="form-text">Προσδιορίστε το είδος της προσφοράς.</div>
-          {% if form.offer_type.errors %}
+          <!-- {% if form.offer_type.errors %}
           <ul class=errors>
             {% for error in form.offer_type.errors %}
             <li class="alert text-danger">{{ error }}</li>
             {% endfor %}
           </ul>
-          {% endif %}
+          {% endif %} -->
         </div>
 
         <div class="mb-3">
           {{ form.offer_location.label(class="form-label") }}
-          {{ ckeditor.create(name="offer_location") }}
+          {{ form.offer_location(class="form-control", required=False) }}
           <div id="offer_locationHelp" class="form-text">Καθορίστε την τοποθεσία της προσφοράς.</div>
-          {% if form.offer_title.errors %}
+          <!-- {% if form.offer_title.errors %}
           <ul class=errors>
             {% for error in form.offer_location.errors %}
             <li class="alert text-danger">{{ error }}</li>
             {% endfor %}
           </ul>
-          {% endif %}
+          {% endif %} -->
         </div>
 
         <div class="mb-3">
@@ -72,7 +73,7 @@
 
         <div class="mb-3">
           {{ form.offer_image.label(class="form-label") }}
-          {{ ckeditor.create(name="offer_image") }}
+          {{ form.offer_image(class="form-control") }}
           <div id="offer_imageHelp" class="form-text">Δώστε μια εικόνα για το άρθρο σας.</div>
           {% if form.offer_image.errors %}
           <ul class=errors>

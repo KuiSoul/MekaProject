@@ -16,20 +16,20 @@
 
       <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
-
         {{ ckeditor.load() }}
 
         <div class="mb-3">
           {{ form.article_title.label(class="form-label") }}
-          {{ ckeditor.create(name="article_title") }}
+          {{ form.article_title(class="form-control", required=False) }}
           <div id="article_titleHelp" class="form-text">Παρακαλώ εισάγετε τον τίτλο του άρθρου.</div>
-          {% if form.article_title.errors %}
+
+          <!-- {% if form.article_title.errors %}
           <ul class=errors>
             {% for error in form.article_title.errors %}
             <li class="alert text-danger">{{ error }}</li>
             {% endfor %}
           </ul>
-          {% endif %}
+          {% endif %} -->
         </div>
 
 
@@ -49,7 +49,7 @@
 
         <div class="mb-3">
           {{ form.article_image.label(class="form-label") }}
-          {{ ckeditor.create(name="article_image") }}
+          {{ form.article_image(class="form-control") }}
           <div id="article_imageHelp" class="form-text">Παρακαλώ δώστε μία εικόνα για το άρθρο σας.</div>
           {% if form.article_image.errors %}
           <ul class=errors>

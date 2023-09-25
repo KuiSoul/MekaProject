@@ -26,7 +26,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 from flask_mail import Mail, Message
 from flask import current_app
-from flask_ckeditor import CKEditor
+from flask_ckeditor import CKEditor, CKEditorField
 
 app.config['CKEDITOR_SERVE_LOCAL'] = True
 app.config['CKEDITOR_HEIGHT'] = 400
@@ -61,9 +61,6 @@ class SignupForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField('Διεύθυνση email σου', validators=[DataRequired(), Email()])
-    # username = StringField('Username', validators=[Optional()])
-    # email = StringField('Email', validators=[Optional(), Email()])
-    # email_or_username = StringField('Email or Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     recaptcha = RecaptchaField()
@@ -77,6 +74,11 @@ class ContactForm(FlaskForm):
 
 class OpinionForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    body = CKEditorField('Body', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 from PIL import Image
@@ -264,6 +266,9 @@ def new_offer():
     if request.method == 'POST' and form.validate_on_submit():
         offer_title = form.offer_title.data
         offer_body = form.offer_body.data
+        offer_location = form.offer_location.data
+        offer_type = form.offer_type.data
+       
 
         if form.offer_image.data:
             try:
@@ -271,11 +276,14 @@ def new_offer():
             except:
                 abort(415)
             offer = Offer(offer_title=offer_title,
-                        offer_body=offer_body,
-                        author=current_user,
-                        offer_image=image_file)
+                          offer_body=offer_body,
+                          offer_type=offer_type,
+                          offer_location=offer_location,
+                          author=current_user,
+                          offer_image=image_file)
         else:
-            offer = Offer(offer_title=offer_title, offer_body=offer_body, author=current_user)
+            offer = Offer(offer_title=offer_title, offer_body=offer_body,  offer_type=offer_type, offer_location=offer_location, author=current_user)
+       
         db.session.add(offer)
         db.session.commit()
         flash(f"H αγγελία με θέμα {offer.offer_title} καταχωρήθηκε.", "success")
