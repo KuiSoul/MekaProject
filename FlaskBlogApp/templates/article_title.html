@@ -20,7 +20,7 @@
       <img src="{{ url_for('static', filename='images/articles_images/'+article.article_image) }}" alt=""
         class="a_image" style="width:320px; height:180px; float: right;">
       {% endif %}
-      <div class="main-article-title">
+      <div>
         {{ article.article_title | safe }}
       </div>
       <p>
@@ -41,7 +41,7 @@
     </div>
     <br>
     <div>
-      <div>
+      <div class="article-wrapper">
         <div>
           {% if article.author == current_user %}
           <a class="btn btn-primary btn-sm mt-1 mb-1"

@@ -11,7 +11,7 @@ Blog
 {% if blog %}
 {% for article in blog.items %}
 
-<div class="col-md-4" style="padding: 40px;">
+<div class="col-md-4 article-wrapper" style="padding: 40px;">
 
   {% if article.article_image and article.article_image != 'default_article_image.jpg' %}
   <img src="{{ url_for('static', filename='images/articles_images/'+article.article_image) }}" alt=""

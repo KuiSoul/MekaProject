@@ -41,17 +41,6 @@ Index
     <p class="main-article-partial-text">
       {{ article.article_body | truncate(255) | safe }}
     </p>
-    <!-- <p class="">Από
-      <span>
-        <a class="author-name" href="{{ url_for('articles_by_author', author_id=article.author.id) }}"> {{
-          article.author.username }}
-          <img class="rounded-circle profile-image" alt="{{ article.author.username }}"
-            src="{{ url_for('static', filename='images/profiles_images/'+article.author.profile_image) }}"
-            data-holder-rendered="true" data-bs-toggle="tooltip" data-bs-placement="top"
-            title="{{ article.author.username }}">
-        </a>
-      </span>
-    </p> -->
   </div>
 </div>
 

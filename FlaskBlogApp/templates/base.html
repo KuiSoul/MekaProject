@@ -54,7 +54,7 @@ Base
 </div>
 {% if offers %}
 {% for offer in offers.items %}
-<div class="col col-md-4" style="padding: 40px;">
+<div class="col col-md-4 article-wrapper" style="padding: 40px;">
 
   {% if offer.offer_image and offer.offer_image != 'default_offer_image.jpg' %} <img
     src="{{ url_for('static', filename='images/offers_images/'+offer.offer_image) }}" alt=""
